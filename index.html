@@ -44,7 +44,6 @@ h1,h2,h3,h4{font-family:'Fredoka',sans-serif}
 .sec-label{font-family:'Fredoka',sans-serif;font-weight:600;font-size:.88rem;margin-bottom:.6rem;display:flex;align-items:center;gap:.4rem;color:var(--fg)}
 .sec-label i{color:var(--accent);font-size:.78rem}
 
-/* Frame scroll (ini untuk corner design Polaroid) */
 .frame-scroll{display:flex;gap:.6rem;overflow-x:auto;padding-bottom:.5rem;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
 .frame-scroll::-webkit-scrollbar{height:3px}
 .frame-card{min-width:96px;max-width:96px;background:var(--card);border:2.5px solid var(--border);border-radius:16px;padding:.45rem;cursor:pointer;transition:all .25s;scroll-snap-align:start;flex-shrink:0;text-align:center;position:relative;overflow:hidden}
@@ -55,7 +54,6 @@ h1,h2,h3,h4{font-family:'Fredoka',sans-serif}
 .frame-mini canvas{width:100%;height:100%;display:block}
 .frame-nm{font-family:'Fredoka',sans-serif;font-weight:600;font-size:.68rem;color:var(--fg)}
 
-/* Template grid (ini untuk layout hasil foto) */
 .tpl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
 .tpl-card{background:var(--card);border:2.5px solid var(--border);border-radius:16px;padding:.5rem;cursor:pointer;transition:all .25s;text-align:center;position:relative;overflow:hidden}
 .tpl-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px var(--shadow)}
@@ -66,7 +64,6 @@ h1,h2,h3,h4{font-family:'Fredoka',sans-serif}
 .tpl-nm{font-family:'Fredoka',sans-serif;font-weight:600;font-size:.72rem}
 .tpl-desc{font-size:.6rem;color:var(--fg2);margin-top:.1rem}
 
-/* Custom panel */
 .custom-panel{background:var(--card);border-radius:18px;padding:.85rem 1rem;box-shadow:0 4px 20px var(--shadow);border:2px solid var(--border);margin-bottom:1rem}
 .custom-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem;font-size:.8rem;font-weight:600;color:var(--fg2)}
 .custom-row:last-child{margin-bottom:0}
@@ -76,6 +73,8 @@ h1,h2,h3,h4{font-family:'Fredoka',sans-serif}
 .custom-row input[type=text]{flex:1;border:2px solid var(--border);border-radius:10px;padding:.35rem .7rem;font-family:'Quicksand',sans-serif;font-weight:600;font-size:.78rem;color:var(--fg);outline:none;transition:border-color .2s;background:var(--bg)}
 .custom-row input[type=text]:focus{border-color:var(--accent)}
 .custom-row span{min-width:48px;text-align:right;font-size:.7rem;font-variant-numeric:tabular-nums}
+.custom-hint{font-size:.6rem;color:var(--accent);font-weight:500;margin-top:-.2rem;margin-bottom:.5rem;display:flex;align-items:center;gap:.25rem}
+.custom-hint i{font-size:.55rem}
 
 .btn-go{font-family:'Fredoka',sans-serif;font-weight:700;border:none;cursor:pointer;border-radius:50px;padding:.95rem 2.5rem;font-size:1.1rem;display:flex;align-items:center;justify-content:center;gap:.5rem;margin:1.5rem auto 0;background:linear-gradient(135deg,var(--accent),#F5A0B5,var(--accent2));color:#fff;box-shadow:0 6px 28px rgba(242,139,158,.35);transition:all .25s;width:100%;max-width:300px}
 .btn-go:hover{transform:translateY(-3px);box-shadow:0 10px 36px rgba(242,139,158,.45)}
@@ -201,9 +200,10 @@ footer i{color:var(--accent)}
 </div>
 
 <div class="sec">
-<div class="sec-label"><i class="fa-solid fa-sliders"></i> Kustomisasi</div>
+<div class="sec-label"><i class="fa-solid fa-sliders"></i> Kustomisasi Card</div>
+<div class="custom-hint"><i class="fa-solid fa-circle-info"></i> Warna & bentuk diterapkan ke card Polaroid hasil, bukan preview kamera</div>
 <div class="custom-panel">
-<div class="custom-row"><label>Warna BG</label><input type="color" id="cFrameColor" value="#FAFAFA" oninput="updateFrameCustom()"><span id="cColorVal">#FAFAFA</span></div>
+<div class="custom-row"><label>Warna Card</label><input type="color" id="cFrameColor" value="#FAFAFA" oninput="updateFrameCustom()"><span id="cColorVal">#FAFAFA</span></div>
 <div class="custom-row"><label>Opacity</label><input type="range" id="cFrameOpacity" min="50" max="100" value="100" oninput="updateFrameCustom()"><span id="cOpacityVal">100%</span></div>
 <div class="custom-row"><label>Corner</label><input type="range" id="cFrameCorner" min="0" max="40" value="8" oninput="updateFrameCustom()"><span id="cCornerVal">8px</span></div>
 <div class="custom-row"><label>Glow</label><input type="range" id="cFrameGlow" min="0" max="30" value="0" oninput="updateFrameCustom()"><span id="cGlowVal">0</span></div>
@@ -247,25 +247,27 @@ footer i{color:var(--accent)}
 /* ====== STATE ====== */
 let stream=null,currentFilter='none',photos=[],facingMode='user',isFlipped=true,isCapturing=false,multiImgs=[];
 let selFrame='classic',selTpl='grid2x2';
+/* frameCustom: hanya untuk card/container Polaroid LUAR */
 let frameCustom={color:'#FAFAFA',opacity:100,corner:8,glow:0,text:''};
 const video=document.getElementById('video');
 const camFrame=document.getElementById('camFrame');
 const camPh=document.getElementById('camPh');
 
 /* ====== CORNER DESIGN DEFINITIONS ====== */
+/* border dari definisi ini TIDAK pernah diubah kustomisasi — hanya style corner yang ikut */
 const frameDefs=[
-{id:'classic',name:'Classic',bg:'#FAFAFA',border:'#E8E4E0',dark:false},
-{id:'sharp',name:'Sharp',bg:'#FAFAFA',border:'#D8D4D0',dark:false},
-{id:'rounded',name:'Rounded',bg:'#FFF8F5',border:'#F0DDD5',dark:false},
-{id:'puffy',name:'Puffy',bg:'#FFF5F8',border:'#F5D5DD',dark:false},
-{id:'pastel',name:'Pastel',bg:'#F5F0FF',border:'#DDD0F0',dark:false},
-{id:'peach',name:'Peach',bg:'#FFF8F0',border:'#F0D8C0',dark:false},
-{id:'mint',name:'Mint',bg:'#F0FFF5',border:'#C8E8D8',dark:false},
-{id:'sky',name:'Sky',bg:'#F0F8FF',border:'#C8D8F0',dark:false},
-{id:'cream',name:'Cream',bg:'#FFFCF0',border:'#E8DCC0',dark:false},
-{id:'rose',name:'Rose',bg:'#FFF0F3',border:'#F0C8D0',dark:false},
-{id:'dark',name:'Dark',bg:'#1A1A1A',border:'#333333',dark:true},
-{id:'night',name:'Night',bg:'#0D0D1A',border:'#222240',dark:true},
+{id:'classic',name:'Classic',bg:'#FAFAFA',border:'#E8E4E0',dark:false,cr:8},
+{id:'sharp',name:'Sharp',bg:'#FAFAFA',border:'#D8D4D0',dark:false,cr:0},
+{id:'rounded',name:'Rounded',bg:'#FFF8F5',border:'#F0DDD5',dark:false,cr:14},
+{id:'puffy',name:'Puffy',bg:'#FFF5F8',border:'#F5D5DD',dark:false,cr:16},
+{id:'pastel',name:'Pastel',bg:'#F5F0FF',border:'#DDD0F0',dark:false,cr:10},
+{id:'peach',name:'Peach',bg:'#FFF8F0',border:'#F0D8C0',dark:false,cr:8},
+{id:'mint',name:'Mint',bg:'#F0FFF5',border:'#C8E8D8',dark:false,cr:10},
+{id:'sky',name:'Sky',bg:'#F0F8FF',border:'#C8D8F0',dark:false,cr:8},
+{id:'cream',name:'Cream',bg:'#FFFCF0',border:'#E8DCC0',dark:false,cr:8},
+{id:'rose',name:'Rose',bg:'#FFF0F3',border:'#F0C8D0',dark:false,cr:12},
+{id:'dark',name:'Dark',bg:'#1A1A1A',border:'#444444',dark:true,cr:8},
+{id:'night',name:'Night',bg:'#0D0D1A',border:'#333355',dark:true,cr:8},
 ];
 
 /* ====== TEMPLATE / LAYOUT DEFINITIONS ====== */
@@ -303,119 +305,116 @@ function rRect(ctx,x,y,w,h,r){
 }
 function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
 
-/* ====== DRAW CORNER DESIGN pada hasil foto ====== */
-/* Ini menggambar border + corner style pada canvas hasil */
-function drawCornerDesign(ctx,w,h,frameId,fc){
-    const def=frameDefs.find(f=>f.id===frameId);
-    if(!def)return;
-    const bgColor=fc?.color||def.bg;
+/* ============================================================
+   drawCornerDesign — HANYA untuk preview mini di halaman pilih.
+   Selalu pakai warna dari frameDefs, TIDAK terpengaruh frameCustom.
+   ============================================================ */
+function drawCornerDesign(ctx,w,h,frameId){
+    const def=frameDefs.find(f=>f.id===frameId);if(!def)return;
+    const bgColor=def.bg;
     const borderColor=def.border;
-    const cr=fc?.corner||8;
-    const op=(fc?.opacity||100)/100;
-    const glow=fc?.glow||0;
+    const cr=def.cr;
+
+    ctx.save();
+    // Background
+    ctx.fillStyle=bgColor;
+    rRect(ctx,0,0,w,h,cr);ctx.fill();
+
+    // Border style berdasarkan corner design
+    ctx.strokeStyle=borderColor;
+
+    if(frameId==='classic'){
+        ctx.lineWidth=1.5;rRect(ctx,1.5,1.5,w-3,h-3,cr);ctx.stroke();
+    }else if(frameId==='sharp'){
+        ctx.lineWidth=2;ctx.strokeRect(2,2,w-4,h-4);
+    }else if(frameId==='rounded'){
+        ctx.lineWidth=1;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
+    }else if(frameId==='puffy'){
+        ctx.lineWidth=1.5;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
+        ctx.globalAlpha=.3;rRect(ctx,6,6,w-12,h-12,Math.max(0,cr-3));ctx.stroke();
+    }else if(frameId==='pastel'){
+        ctx.lineWidth=1;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
+        ctx.globalAlpha=.15;rRect(ctx,6,6,w-12,h-12,Math.max(0,cr-2));ctx.stroke();
+    }else if(frameId==='peach'){
+        ctx.lineWidth=1.5;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
+    }else if(frameId==='mint'){
+        ctx.lineWidth=1;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
+    }else if(frameId==='sky'){
+        ctx.lineWidth=1.5;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
+    }else if(frameId==='cream'){
+        ctx.lineWidth=2;rRect(ctx,1.5,1.5,w-3,h-3,cr);ctx.stroke();
+        ctx.globalAlpha=.2;ctx.lineWidth=1;rRect(ctx,5,5,w-10,h-10,Math.max(0,cr-2));ctx.stroke();
+    }else if(frameId==='rose'){
+        ctx.lineWidth=1.5;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
+    }else if(frameId==='dark'){
+        ctx.strokeStyle='#444';ctx.lineWidth=1.5;rRect(ctx,1.5,1.5,w-3,h-3,cr);ctx.stroke();
+    }else if(frameId==='night'){
+        ctx.strokeStyle='#333355';ctx.lineWidth=1;rRect(ctx,1.5,1.5,w-3,h-3,cr);ctx.stroke();
+        ctx.globalAlpha=.15;ctx.strokeStyle='#4444AA';rRect(ctx,5,5,w-10,h-10,Math.max(0,cr-2));ctx.stroke();
+    }
+    ctx.restore();
+}
+
+/* ============================================================
+   drawOuterCard — KHUSUS untuk container/card Polaroid pada HASIL FOTO.
+   Membaca frameCustom (warna, opacity, corner, glow).
+   border-nya tetap pakai frameDefs agar style corner konsisten.
+   ============================================================ */
+function drawOuterCard(ctx,w,h,frameId,fc){
+    const def=frameDefs.find(f=>f.id===frameId);if(!def)return;
+    const bgColor=fc.color;
+    const borderColor=def.border; // border tetap dari definisi corner design
+    const cr=fc.corner;
+    const op=fc.opacity/100;
+    const glow=fc.glow;
 
     ctx.save();
     ctx.globalAlpha=op;
 
-    // Glow effect
+    // Glow effect pada card luar
     if(glow>0){
         ctx.shadowColor=borderColor;
         ctx.shadowBlur=glow;
     }
 
-    // Background fill
+    // Background card luar — pakai warna kustomisasi
     ctx.fillStyle=bgColor;
-    rRect(ctx,0,0,w,h,cr);
-    ctx.fill();
+    rRect(ctx,0,0,w,h,cr);ctx.fill();
 
-    // Reset shadow for border
-    ctx.shadowColor='transparent';
-    ctx.shadowBlur=0;
+    // Reset shadow sebelum border
+    ctx.shadowColor='transparent';ctx.shadowBlur=0;
 
-    // Border styling berdasarkan corner design
+    // Border card luar — style dari corner design, radius dari kustomisasi
     ctx.strokeStyle=borderColor;
-    ctx.lineWidth=1.5;
 
     if(frameId==='classic'){
-        // Polaroid classic: border tipis semua sisi, sedikit lebih tebal di kiri-atas
-        ctx.lineWidth=1.5;
-        rRect(ctx,1.5,1.5,w-3,h-3,cr);
-        ctx.stroke();
-    }
-    else if(frameId==='sharp'){
-        // Sharp: corner 0, border tebal
-        ctx.lineWidth=2;
-        ctx.strokeRect(2,2,w-4,h-4);
-    }
-    else if(frameId==='rounded'){
-        // Rounded: corner besar, border lembut
-        ctx.lineWidth=1;
-        rRect(ctx,2,2,w-4,h-4,cr+6);
-        ctx.stroke();
-    }
-    else if(frameId==='puffy'){
-        // Puffy: double border, corner besar
-        ctx.lineWidth=1.5;
-        rRect(ctx,2,2,w-4,h-4,cr+8);
-        ctx.stroke();
-        ctx.globalAlpha=op*.3;
-        rRect(ctx,6,6,w-12,h-12,cr+5);
-        ctx.stroke();
-    }
-    else if(frameId==='pastel'){
-        // Pastel: border halus + inner glow line
-        ctx.lineWidth=1;
-        rRect(ctx,2,2,w-4,h-4,cr);
-        ctx.stroke();
-        ctx.globalAlpha=op*.15;
-        ctx.strokeStyle=borderColor;
-        rRect(ctx,6,6,w-12,h-12,Math.max(0,cr-2));
-        ctx.stroke();
-    }
-    else if(frameId==='peach'){
-        ctx.lineWidth=1.5;
-        rRect(ctx,2,2,w-4,h-4,cr);
-        ctx.stroke();
-    }
-    else if(frameId==='mint'){
-        ctx.lineWidth=1;
-        rRect(ctx,2,2,w-4,h-4,cr+2);
-        ctx.stroke();
-    }
-    else if(frameId==='sky'){
-        ctx.lineWidth=1.5;
-        rRect(ctx,2,2,w-4,h-4,cr);
-        ctx.stroke();
-    }
-    else if(frameId==='cream'){
-        ctx.lineWidth=2;
-        rRect(ctx,1.5,1.5,w-3,h-3,cr);
-        ctx.stroke();
-        ctx.globalAlpha=op*.2;
-        ctx.lineWidth=1;
-        rRect(ctx,5,5,w-10,h-10,Math.max(0,cr-2));
-        ctx.stroke();
-    }
-    else if(frameId==='rose'){
-        ctx.lineWidth=1.5;
-        rRect(ctx,2,2,w-4,h-4,cr+4);
-        ctx.stroke();
-    }
-    else if(frameId==='dark'){
-        ctx.strokeStyle='#444';
-        ctx.lineWidth=1.5;
-        rRect(ctx,1.5,1.5,w-3,h-3,cr);
-        ctx.stroke();
-    }
-    else if(frameId==='night'){
-        ctx.strokeStyle='#333355';
-        ctx.lineWidth=1;
-        rRect(ctx,1.5,1.5,w-3,h-3,cr);
-        ctx.stroke();
-        ctx.globalAlpha=op*.15;
-        ctx.strokeStyle='#4444AA';
-        rRect(ctx,5,5,w-10,h-10,Math.max(0,cr-2));
-        ctx.stroke();
+        ctx.lineWidth=1.5;rRect(ctx,1.5,1.5,w-3,h-3,cr);ctx.stroke();
+    }else if(frameId==='sharp'){
+        ctx.lineWidth=2;ctx.strokeRect(2,2,w-4,h-4);
+    }else if(frameId==='rounded'){
+        ctx.lineWidth=1;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
+    }else if(frameId==='puffy'){
+        ctx.lineWidth=1.5;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
+        ctx.globalAlpha=op*.3;rRect(ctx,6,6,w-12,h-12,Math.max(0,cr-3));ctx.stroke();
+    }else if(frameId==='pastel'){
+        ctx.lineWidth=1;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
+        ctx.globalAlpha=op*.15;rRect(ctx,6,6,w-12,h-12,Math.max(0,cr-2));ctx.stroke();
+    }else if(frameId==='peach'){
+        ctx.lineWidth=1.5;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
+    }else if(frameId==='mint'){
+        ctx.lineWidth=1;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
+    }else if(frameId==='sky'){
+        ctx.lineWidth=1.5;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
+    }else if(frameId==='cream'){
+        ctx.lineWidth=2;rRect(ctx,1.5,1.5,w-3,h-3,cr);ctx.stroke();
+        ctx.globalAlpha=op*.2;ctx.lineWidth=1;rRect(ctx,5,5,w-10,h-10,Math.max(0,cr-2));ctx.stroke();
+    }else if(frameId==='rose'){
+        ctx.lineWidth=1.5;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
+    }else if(frameId==='dark'){
+        ctx.strokeStyle='#444';ctx.lineWidth=1.5;rRect(ctx,1.5,1.5,w-3,h-3,cr);ctx.stroke();
+    }else if(frameId==='night'){
+        ctx.strokeStyle='#333355';ctx.lineWidth=1;rRect(ctx,1.5,1.5,w-3,h-3,cr);ctx.stroke();
+        ctx.globalAlpha=op*.15;ctx.strokeStyle='#4444AA';rRect(ctx,5,5,w-10,h-10,Math.max(0,cr-2));ctx.stroke();
     }
 
     ctx.restore();
@@ -432,26 +431,28 @@ function buildFrameScroll(){
         card.innerHTML=`<div class="frame-mini"><canvas id="fm_${f.id}"></canvas></div><div class="frame-nm">${f.name}</div>`;
         sc.appendChild(card);
     });
-    setTimeout(()=>{frameDefs.forEach(f=>{const c=document.getElementById('fm_'+f.id);if(!c)return;c.width=120;c.height=160;const x=c.getContext('2d');
-        // Gambar mini preview corner design
-        drawCornerDesign(x,120,160,f.id,frameCustom);
-        // Placeholder foto di tengah
-        const m=8;
-        x.save();
-        rRect(x,m,m,104,100,f.id==='sharp'?0:Math.min(frameCustom.corner||8,10));
-        x.clip();
-        x.fillStyle=f.dark?'#2A2520':'#F0EAE2';
-        x.fillRect(m,m,104,100);
-        x.fillStyle=f.dark?'rgba(255,255,255,.3)':'rgba(0,0,0,.1)';
-        x.font='22px serif';x.textAlign='center';x.textBaseline='middle';
-        x.fillText('\u{1F4F7}',60,m+50);
-        x.restore();
-        // Area bawah (simulasi area tulisan Polaroid)
-        x.save();x.globalAlpha=.3;x.fillStyle=f.dark?'#FFFFFF':'#4A3F3A';
-        x.font=`${Math.round(8)}px Caveat,cursive`;x.textAlign='center';x.textBaseline='middle';
-        x.fillText('xoxo ~',60,130);
-        x.restore();
-    });},50);
+    setTimeout(()=>{
+        frameDefs.forEach(f=>{
+            const c=document.getElementById('fm_'+f.id);if(!c)return;
+            c.width=120;c.height=160;const x=c.getContext('2d');
+            // Preview mini — pakai drawCornerDesign (tidak terpengaruh frameCustom)
+            drawCornerDesign(x,120,160,f.id);
+            // Placeholder foto di tengah
+            const m=8,fcR=Math.min(f.cr,10);
+            x.save();
+            rRect(x,m,m,104,100,fcR);x.clip();
+            x.fillStyle=f.dark?'#2A2520':'#F0EAE2';
+            x.fillRect(m,m,104,100);
+            x.fillStyle=f.dark?'rgba(255,255,255,.3)':'rgba(0,0,0,.1)';
+            x.font='22px serif';x.textAlign='center';x.textBaseline='middle';
+            x.fillText('\u{1F4F7}',60,m+50);
+            x.restore();
+            // Area bawah
+            x.save();x.globalAlpha=.3;x.fillStyle=f.dark?'#FFFFFF':'#4A3F3A';
+            x.font='8px Caveat,cursive';x.textAlign='center';x.textBaseline='middle';
+            x.fillText('xoxo ~',60,130);x.restore();
+        });
+    },50);
 }
 
 /* ====== BUILD TEMPLATE SELECTION ====== */
@@ -472,24 +473,51 @@ function drawTplPreviews(){
     tplDefs.forEach(t=>{
         const c=document.getElementById('tm_'+t.id);if(!c)return;c.width=140;c.height=140;
         const x=c.getContext('2d');
-        // Gambar corner design sebagai background
-        drawCornerDesign(x,140,140,selFrame,frameCustom);
-        // Placeholder foto
         const def=frameDefs.find(f=>f.id===selFrame);
+        // Preview mini template — pakai drawCornerDesign (tidak terpengaruh frameCustom)
+        drawCornerDesign(x,140,140,selFrame);
         x.fillStyle=def?.dark?'#2A2520':'#F0EAE2';
         x.font='14px serif';x.textAlign='center';x.textBaseline='middle';
-        if(t.id==='grid2x2'){const m=8,gap=4,s=(140-m*2-gap)/2;for(let r=0;r<2;r++)for(let col=0;r<2&&col<2;col++){
-            x.save();rRect(x,m+col*(s+gap),m+r*(s+gap),s,s,4);x.clip();x.fillRect(m+col*(s+gap),m+r*(s+gap),s,s);x.fillStyle=def?.dark?'rgba(255,255,255,.3)':'rgba(0,0,0,.1)';x.fillText('\u{1F4F7}',m+col*(s+gap)+s/2,m+r*(s+gap)+s/2);x.restore();}}
-        else if(t.id==='strip'){const m=8,gap=4,s=(140-m*2-gap*3)/4;for(let i=0;i<4;i++){
-            x.save();rRect(x,m+i*(s+gap),m,s,140-m*2,4);x.clip();x.fillRect(m+i*(s+gap),m,s,140-m*2);x.fillStyle=def?.dark?'rgba(255,255,255,.3)':'rgba(0,0,0,.1)';x.fillText('\u{1F4F7}',m+i*(s+gap)+s/2,70);x.restore();}}
-        else if(t.id==='polaroid'){x.save();rRect(x,12,12,116,80,4);x.clip();x.fillRect(12,12,116,80);x.fillStyle=def?.dark?'rgba(255,255,255,.3)':'rgba(0,0,0,.1)';x.fillText('\u{1F4F7}',70,52);x.restore();}
-        else if(t.id==='korean'){x.save();rRect(x,5,5,130,130,4);x.clip();x.fillRect(5,5,130,130);x.fillStyle=def?.dark?'rgba(255,255,255,.3)':'rgba(0,0,0,.1)';x.fillText('\u{1F4F7}',50,55);x.fillText('\u{1F4F7}',105,85);x.restore();}
-        else if(t.id==='purikura'){const m=10,gap=5,s=(140-m*2-gap*2)/3;for(let i=0;i<3;i++){
-            x.save();rRect(x,m+i*(s+gap),m,s,100,4);x.clip();x.fillRect(m+i*(s+gap),m,s,100);x.fillStyle=def?.dark?'rgba(255,255,255,.3)':'rgba(0,0,0,.1)';x.fillText('\u{1F4F7}',m+i*(s+gap)+s/2,50);x.restore();}}
+        if(t.id==='grid2x2'){
+            const m=8,gap=4,s=(140-m*2-gap)/2;
+            for(let r=0;r<2;r++)for(let col=0;col<2;col++){
+                x.save();rRect(x,m+col*(s+gap),m+r*(s+gap),s,s,4);x.clip();
+                x.fillStyle=def?.dark?'#2A2520':'#F0EAE2';x.fillRect(m+col*(s+gap),m+r*(s+gap),s,s);
+                x.fillStyle=def?.dark?'rgba(255,255,255,.3)':'rgba(0,0,0,.1)';
+                x.fillText('\u{1F4F7}',m+col*(s+gap)+s/2,m+r*(s+gap)+s/2);x.restore();
+            }
+        }else if(t.id==='strip'){
+            const m=8,gap=4,s=(140-m*2-gap*3)/4;
+            for(let i=0;i<4;i++){
+                x.save();rRect(x,m+i*(s+gap),m,s,140-m*2,4);x.clip();
+                x.fillStyle=def?.dark?'#2A2520':'#F0EAE2';x.fillRect(m+i*(s+gap),m,s,140-m*2);
+                x.fillStyle=def?.dark?'rgba(255,255,255,.3)':'rgba(0,0,0,.1)';
+                x.fillText('\u{1F4F7}',m+i*(s+gap)+s/2,70);x.restore();
+            }
+        }else if(t.id==='polaroid'){
+            x.save();rRect(x,12,12,116,80,4);x.clip();
+            x.fillStyle=def?.dark?'#2A2520':'#F0EAE2';x.fillRect(12,12,116,80);
+            x.fillStyle=def?.dark?'rgba(255,255,255,.3)':'rgba(0,0,0,.1)';
+            x.fillText('\u{1F4F7}',70,52);x.restore();
+        }else if(t.id==='korean'){
+            x.save();rRect(x,5,5,130,130,4);x.clip();
+            x.fillStyle=def?.dark?'#2A2520':'#F0EAE2';x.fillRect(5,5,130,130);
+            x.fillStyle=def?.dark?'rgba(255,255,255,.3)':'rgba(0,0,0,.1)';
+            x.fillText('\u{1F4F7}',50,55);x.fillText('\u{1F4F7}',105,85);x.restore();
+        }else if(t.id==='purikura'){
+            const m=10,gap=5,s=(140-m*2-gap*2)/3;
+            for(let i=0;i<3;i++){
+                x.save();rRect(x,m+i*(s+gap),m,s,100,4);x.clip();
+                x.fillStyle=def?.dark?'#2A2520':'#F0EAE2';x.fillRect(m+i*(s+gap),m,s,100);
+                x.fillStyle=def?.dark?'rgba(255,255,255,.3)':'rgba(0,0,0,.1)';
+                x.fillText('\u{1F4F7}',m+i*(s+gap)+s/2,50);x.restore();
+            }
+        }
     });
 }
 
 /* ====== FRAME CUSTOM UPDATE ====== */
+/* Hanya update nilai state — preview mini tidak perlu redraw karena tidak terpengaruh */
 function updateFrameCustom(){
     frameCustom.color=document.getElementById('cFrameColor').value;
     frameCustom.opacity=parseInt(document.getElementById('cFrameOpacity').value);
@@ -500,8 +528,7 @@ function updateFrameCustom(){
     document.getElementById('cOpacityVal').textContent=frameCustom.opacity+'%';
     document.getElementById('cCornerVal').textContent=frameCustom.corner+'px';
     document.getElementById('cGlowVal').textContent=frameCustom.glow;
-    buildFrameScroll();
-    drawTplPreviews();
+    /* Tidak perlu rebuild frameScroll atau tplPreviews karena preview mini tidak terpengaruh kustomisasi */
 }
 
 /* ====== START SESSION ====== */
@@ -596,7 +623,7 @@ function showPrintAnimation(url){
     img.src=url;el.classList.add('on');setTimeout(()=>el.classList.remove('on'),2200);
 }
 
-/* ====== ASSEMBLE RESULT — ini inti rendering Polaroid ====== */
+/* ====== ASSEMBLE RESULT — pakai drawOuterCard untuk card luar ====== */
 function assembleResult(imgs){
     if(selTpl==='grid2x2')return asmGrid(imgs);
     if(selTpl==='strip')return asmStrip(imgs);
@@ -608,16 +635,13 @@ function assembleResult(imgs){
 
 function getFD(){return frameDefs.find(f=>f.id===selFrame);}
 
-/* Helper: gambar teks tulisan tangan di area bawah Polaroid */
+/* Helper: gambar teks tulisan tangan */
 function drawHandText(ctx,x,y,text,maxW,color,fontSize){
     if(!text)return;
     ctx.save();
     ctx.font=`${fontSize||28}px Caveat,cursive`;
-    ctx.fillStyle=color;
-    ctx.textAlign='center';
-    ctx.textBaseline='middle';
-    // Wrap text sederhana
-    const words=text.split(' ');let line='';let lines=[];let cy=y;
+    ctx.fillStyle=color;ctx.textAlign='center';ctx.textBaseline='middle';
+    const words=text.split(' ');let line='';let lines=[];
     for(const w of words){
         const test=line+w+' ';
         if(ctx.measureText(test).width>maxW&&line){lines.push(line.trim());line=w+' ';}
@@ -625,7 +649,7 @@ function drawHandText(ctx,x,y,text,maxW,color,fontSize){
     }
     lines.push(line.trim());
     const lh=(fontSize||28)*1.3;
-    const startY=cy-(lines.length-1)*lh/2;
+    const startY=y-(lines.length-1)*lh/2;
     lines.forEach((l,i)=>ctx.fillText(l,x,startY+i*lh));
     ctx.restore();
 }
@@ -643,10 +667,12 @@ function drawDate(ctx,x,y,color,fontSize){
     ctx.fillText(new Date().toLocaleDateString('id-ID'),x,y);ctx.restore();
 }
 
-/* ===== POLAROID — template utama, foto di tengah, area putih bawah ===== */
+/* ============================================================
+   POLAROID — card luar pakai drawOuterCard (warna kustomisasi),
+   foto di tengah TANPA border tambahan dari kustomisasi.
+   ============================================================ */
 function asmPolaroid(imgs){
     const sw=imgs[0].width,sh=imgs[0].height;
-    // Proporsi Polaroid: margin atas/samping kecil, margin bawah besar
     const mSide=Math.round(sw*.045);
     const mTop=Math.round(sh*.04);
     const mBot=Math.round(sh*.28);
@@ -654,32 +680,26 @@ function asmPolaroid(imgs){
     const w=sw+mSide*2,h=sh+mTop+mBot;
     const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');
 
-    // 1. Gambar corner design (background + border)
-    drawCornerDesign(x,w,h,selFrame,frameCustom);
+    // 1. Card luar — pakai drawOuterCard (warna kustomisasi di sini)
+    drawOuterCard(x,w,h,selFrame,frameCustom);
 
-    // 2. Shadow halus di belakang foto
+    // 2. Shadow halus di belakang foto (bukan border)
     x.save();
-    x.shadowColor='rgba(0,0,0,.08)';
-    x.shadowBlur=8;
-    x.shadowOffsetY=2;
+    x.shadowColor='rgba(0,0,0,.08)';x.shadowBlur=8;x.shadowOffsetY=2;
     x.fillStyle='rgba(0,0,0,0)';
-    rRect(x,mSide,mTop,sw,sh,Math.min(cr,4));
-    x.fill();
+    rRect(x,mSide,mTop,sw,sh,Math.min(cr,4));x.fill();
     x.restore();
 
-    // 3. Gambar foto dengan rounded corner kecil
+    // 3. Gambar foto langsung — tanpa border/frame
     x.save();
-    const fotoCR=Math.min(cr,4);
-    rRect(x,mSide,mTop,sw,sh,fotoCR);
-    x.clip();
+    rRect(x,mSide,mTop,sw,sh,Math.min(cr,4));x.clip();
     x.drawImage(imgs[0],mSide,mTop,sw,sh);
     x.restore();
 
-    // 4. Teks tulisan tangan di area bawah
+    // 4. Teks di area bawah card
     const isDark=getFD()?.dark;
     const textColor=isDark?'rgba(255,255,255,.65)':'rgba(80,60,50,.6)';
     const dateColor=isDark?'rgba(255,255,255,.3)':'rgba(80,60,50,.3)';
-
     const textAreaY=mTop+sh+mBot/2;
     const textAreaW=sw-20;
 
@@ -694,11 +714,10 @@ function asmPolaroid(imgs){
 
     // 6. Watermark
     drawWatermark(x,w,h);
-
     return c.toDataURL('image/png');
 }
 
-/* ===== GRID 2x2 — Polaroid style grid ===== */
+/* ===== GRID 2x2 ===== */
 function asmGrid(imgs){
     const sw=imgs[0].width,sh=imgs[0].height;
     const pad=Math.round(sw*.025);
@@ -712,33 +731,31 @@ function asmGrid(imgs){
     const h=sh*2+pad*3+mTop+mBot;
     const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');
 
-    drawCornerDesign(x,w,h,selFrame,frameCustom);
+    // Card luar — warna kustomisasi
+    drawOuterCard(x,w,h,selFrame,frameCustom);
 
     // Judul
     const isDark=getFD()?.dark;
     const textColor=isDark?'rgba(255,255,255,.7)':'rgba(80,60,50,.7)';
     drawHandText(x,w/2,mTop+mBot*.35,frameCustom.text||'Ponyo Booth',w-40,textColor,Math.round(mBot*.4));
 
-    // 4 foto
+    // 4 foto — tanpa border kustomisasi
     const sy=mTop+mBot*.6;
     for(let i=0;i<4;i++){
         const col=i%2,row=Math.floor(i/2);
         const px=mSide+pad+col*(sw+pad);
         const py=sy+pad+row*(sh+pad);
-        // Shadow
         x.save();x.shadowColor='rgba(0,0,0,.06)';x.shadowBlur=6;x.shadowOffsetY=2;
         x.fillStyle='rgba(0,0,0,0)';rRect(x,px,py,sw,sh,fotoCR);x.fill();x.restore();
-        // Foto
         x.save();rRect(x,px,py,sw,sh,fotoCR);x.clip();x.drawImage(imgs[i],px,py,sw,sh);x.restore();
     }
 
-    // Tanggal
     drawDate(x,w-50,h-mBot*.3,isDark?'rgba(255,255,255,.25)':'rgba(80,60,50,.25)',Math.round(mBot*.2));
     drawWatermark(x,w,h);
     return c.toDataURL('image/png');
 }
 
-/* ===== STRIP — photobooth klasik ===== */
+/* ===== STRIP ===== */
 function asmStrip(imgs){
     const sh=imgs[0].height;
     const imgW=Math.round(sh*.55);
@@ -753,15 +770,14 @@ function asmStrip(imgs){
     const h=sh+mTop+mBot;
     const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');
 
-    drawCornerDesign(x,w,h,selFrame,frameCustom);
+    // Card luar
+    drawOuterCard(x,w,h,selFrame,frameCustom);
 
     const isDark=getFD()?.dark;
     const textColor=isDark?'rgba(255,255,255,.65)':'rgba(80,60,50,.6)';
 
-    // Judul
     drawHandText(x,w/2,mTop+mBot*.3,frameCustom.text||'Ponyo Booth',w-30,textColor,Math.round(mBot*.4));
 
-    // Foto
     const sy=mTop+mBot*.6;
     for(let i=0;i<cnt;i++){
         const px=mSide+i*(imgW+pad);
@@ -770,7 +786,7 @@ function asmStrip(imgs){
         x.save();rRect(x,px,sy,imgW,sh,fotoCR);x.clip();x.drawImage(imgs[i],px,sy,imgW,sh);x.restore();
     }
 
-    // Garis pemisah tipis antar foto
+    // Garis pemisah tipis
     x.save();x.globalAlpha=.15;x.strokeStyle=isDark?'#FFFFFF':'#4A3F3A';x.lineWidth=1;
     for(let i=1;i<cnt;i++){const lx=mSide+i*(imgW+pad)-pad/2;x.beginPath();x.moveTo(lx,sy);x.lineTo(lx,sy+sh);x.stroke();}
     x.restore();
@@ -780,37 +796,37 @@ function asmStrip(imgs){
     return c.toDataURL('image/png');
 }
 
-/* ===== KOREAN — 2 foto overlay ===== */
+/* ===== KOREAN ===== */
 function asmKorean(imgs){
     const sw=imgs[0].width,sh=imgs[0].height;
     const mSide=Math.round(sw*.03);const mTop=Math.round(sh*.03);const mBot=Math.round(sh*.15);
-    const cr=frameCustom.corner||8;const fotoCR=Math.min(cr,4);
+    const cr=frameCustom.corner||8;
     const w=sw+mSide*2,h=sh+mTop+mBot;
     const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');
 
-    drawCornerDesign(x,w,h,selFrame,frameCustom);
+    // Card luar
+    drawOuterCard(x,w,h,selFrame,frameCustom);
 
     const isDark=getFD()?.dark;
     const textColor=isDark?'rgba(255,255,255,.65)':'rgba(80,60,50,.6)';
 
-    // Foto utama
-    x.save();rRect(x,mSide,mTop,sw,sh,fotoCR);x.clip();x.drawImage(imgs[0],mSide,mTop,sw,sh);x.restore();
+    // Foto utama — tanpa border
+    x.save();rRect(x,mSide,mTop,sw,sh,Math.min(cr,4));x.clip();x.drawImage(imgs[0],mSide,mTop,sw,sh);x.restore();
 
-    // Foto kecil overlay kanan bawah
+    // Foto kecil overlay — pakai card mini sendiri
     const s2w=Math.round(sw*.42),s2h=Math.round(sh*.42);
     const s2x=w-mSide-s2w-Math.round(sw*.02);
     const s2y=mTop+sh-s2h-Math.round(sh*.02);
 
+    // Shadow foto overlay
     x.save();x.shadowColor='rgba(0,0,0,.15)';x.shadowBlur=15;x.shadowOffsetY=4;
-    x.fillStyle=(frameCustom.color||'#FAFAFA');rRect(x,s2x-6,s2y-6,s2w+12,s2h+12,cr+4);x.fill();x.restore();
+    x.fillStyle=frameCustom.color;rRect(x,s2x-6,s2y-6,s2w+12,s2h+12,cr+4);x.fill();x.restore();
 
-    // Corner design kecil di foto overlay
-    drawCornerDesign(x,s2w+12,s2h+12,'classic',{color:frameCustom.color||'#FAFAFA',opacity:100,corner:cr+4,glow:0,text:''});
-    x.save();x.globalAlpha=0;x.clearRect(0,0,s2w+12,s2h+12);x.restore();
-    // Border manual foto overlay
+    // Border card mini foto overlay
     x.save();x.strokeStyle=getFD()?.border||'#E8E4E0';x.lineWidth=1;
     rRect(x,s2x-6,s2y-6,s2w+12,s2h+12,cr+4);x.stroke();x.restore();
 
+    // Foto overlay — tanpa border tambahan
     x.save();rRect(x,s2x,s2y,s2w,s2h,Math.min(cr,3));x.clip();x.drawImage(imgs[1],s2x,s2y,s2w,s2h);x.restore();
 
     // Teks
@@ -821,7 +837,7 @@ function asmKorean(imgs){
     return c.toDataURL('image/png');
 }
 
-/* ===== PURIKURA — 3 foto dekoratif ===== */
+/* ===== PURIKURA ===== */
 function asmPurikura(imgs){
     const sw=imgs[0].width,sh=imgs[0].height;
     const pad=Math.round(sw*.03);
@@ -836,28 +852,23 @@ function asmPurikura(imgs){
     const w=sw,h=mTop+imgH+mBot;
     const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');
 
-    drawCornerDesign(x,w,h,selFrame,frameCustom);
+    // Card luar
+    drawOuterCard(x,w,h,selFrame,frameCustom);
 
     const isDark=getFD()?.dark;
     const textColor=isDark?'rgba(255,255,255,.7)':'rgba(80,60,50,.7)';
 
-    // Judul
     drawHandText(x,w/2,mTop*.5,frameCustom.text||'Purikura',w-40,textColor,Math.round(mTop*.5));
 
-    // 3 foto
+    // 3 foto — tanpa border kustomisasi
     const sy=mTop;
     for(let i=0;i<cnt;i++){
         const px=mSide+i*(imgW+pad);
-        // Shadow
         x.save();x.shadowColor='rgba(0,0,0,.08)';x.shadowBlur=8;x.shadowOffsetY=2;
         x.fillStyle='rgba(0,0,0,0)';rRect(x,px,sy,imgW,imgH,fotoCR);x.fill();x.restore();
-        // Foto
         x.save();rRect(x,px,sy,imgW,imgH,fotoCR);x.clip();x.drawImage(imgs[i],px,sy,imgW,imgH);x.restore();
-        // Border dekoratif
-        x.save();x.strokeStyle=getFD()?.border||'#E8E4E0';x.lineWidth=2;rRect(x,px,sy,imgW,imgH,fotoCR);x.stroke();x.restore();
     }
 
-    // Tanggal
     drawDate(x,w/2,h-mBot*.4,isDark?'rgba(255,255,255,.3)':'rgba(80,60,50,.3)',Math.round(mBot*.25));
     drawWatermark(x,w,h);
     return c.toDataURL('image/png');
