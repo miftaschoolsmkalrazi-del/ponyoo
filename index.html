@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Ponyo Booth - Pastel Photobooth</title>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Quicksand:wght@400;500;600;700&family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Dancing+Script:wght@400;500;600;700&family=Fredoka:wght@300;400;500;600;700&family=Pacifico&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 :root{--bg:#FFF5F5;--bg2:#FFE8EC;--fg:#4A3F3A;--fg2:#A09088;--accent:#F28B9E;--accent2:#F7B267;--accent3:#8ECAE6;--accent4:#A8D8B9;--card:#FFFFFF;--border:#F5D5DC;--shadow:rgba(200,130,150,.1);--radius:18px}
@@ -44,37 +44,38 @@ h1,h2,h3,h4{font-family:'Fredoka',sans-serif}
 .sec-label{font-family:'Fredoka',sans-serif;font-weight:600;font-size:.88rem;margin-bottom:.6rem;display:flex;align-items:center;gap:.4rem;color:var(--fg)}
 .sec-label i{color:var(--accent);font-size:.78rem}
 
-.frame-scroll{display:flex;gap:.6rem;overflow-x:auto;padding-bottom:.5rem;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
-.frame-scroll::-webkit-scrollbar{height:3px}
-.frame-card{min-width:96px;max-width:96px;background:var(--card);border:2.5px solid var(--border);border-radius:16px;padding:.45rem;cursor:pointer;transition:all .25s;scroll-snap-align:start;flex-shrink:0;text-align:center;position:relative;overflow:hidden}
+.frame-scroll,.font-scroll{display:flex;gap:.6rem;overflow-x:auto;padding-bottom:.5rem;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.frame-scroll::-webkit-scrollbar,.font-scroll::-webkit-scrollbar{height:3px}
+
+.frame-card{min-width:90px;max-width:90px;background:var(--card);border:2.5px solid var(--border);border-radius:16px;padding:.4rem;cursor:pointer;transition:all .25s;scroll-snap-align:start;flex-shrink:0;text-align:center;position:relative;overflow:hidden}
 .frame-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px var(--shadow)}
 .frame-card.sel{border-color:var(--accent);box-shadow:0 0 0 3px rgba(242,139,158,.15)}
-.frame-card.sel::after{content:'\f00c';font-family:'Font Awesome 6 Free';font-weight:900;position:absolute;top:5px;right:6px;font-size:.5rem;background:var(--accent);color:#fff;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center}
-.frame-mini{width:100%;aspect-ratio:3/4;border-radius:10px;overflow:hidden;margin-bottom:.3rem;background:linear-gradient(135deg,#FFE8EC,#F5D5DC)}
+.frame-card.sel::after{content:'\f00c';font-family:'Font Awesome 6 Free';font-weight:900;position:absolute;top:4px;right:5px;font-size:.45rem;background:var(--accent);color:#fff;width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.frame-mini{width:100%;aspect-ratio:3/4;border-radius:10px;overflow:hidden;margin-bottom:.25rem;background:linear-gradient(135deg,#FFE8EC,#F5D5DC)}
 .frame-mini canvas{width:100%;height:100%;display:block}
-.frame-nm{font-family:'Fredoka',sans-serif;font-weight:600;font-size:.68rem;color:var(--fg)}
+.frame-nm{font-family:'Fredoka',sans-serif;font-weight:600;font-size:.65rem;color:var(--fg)}
+
+.font-card{min-width:fit-content;background:var(--card);border:2.5px solid var(--border);border-radius:12px;padding:.45rem .85rem;cursor:pointer;transition:all .25s;scroll-snap-align:start;flex-shrink:0;text-align:center;position:relative;overflow:hidden}
+.font-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px var(--shadow)}
+.font-card.sel{border-color:var(--accent);box-shadow:0 0 0 3px rgba(242,139,158,.15)}
+.font-card.sel::after{content:'\f00c';font-family:'Font Awesome 6 Free';font-weight:900;position:absolute;top:3px;right:4px;font-size:.4rem;background:var(--accent);color:#fff;width:14px;height:14px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.font-card span{display:block;white-space:nowrap}
 
 .tpl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
-.tpl-card{background:var(--card);border:2.5px solid var(--border);border-radius:16px;padding:.5rem;cursor:pointer;transition:all .25s;text-align:center;position:relative;overflow:hidden}
+.tpl-card{background:var(--card);border:2.5px solid var(--border);border-radius:16px;padding:.45rem;cursor:pointer;transition:all .25s;text-align:center;position:relative;overflow:hidden}
 .tpl-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px var(--shadow)}
 .tpl-card.sel{border-color:var(--accent);box-shadow:0 0 0 3px rgba(242,139,158,.15)}
-.tpl-card.sel::after{content:'\f00c';font-family:'Font Awesome 6 Free';font-weight:900;position:absolute;top:5px;right:6px;font-size:.5rem;background:var(--accent);color:#fff;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center}
-.tpl-mini{width:100%;aspect-ratio:1;border-radius:10px;overflow:hidden;margin-bottom:.3rem;background:linear-gradient(135deg,#FFE8EC,#F5D5DC)}
+.tpl-card.sel::after{content:'\f00c';font-family:'Font Awesome 6 Free';font-weight:900;position:absolute;top:4px;right:5px;font-size:.45rem;background:var(--accent);color:#fff;width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.tpl-mini{width:100%;aspect-ratio:1;border-radius:10px;overflow:hidden;margin-bottom:.25rem;background:linear-gradient(135deg,#FFE8EC,#F5D5DC)}
 .tpl-mini canvas{width:100%;height:100%;display:block}
-.tpl-nm{font-family:'Fredoka',sans-serif;font-weight:600;font-size:.72rem}
-.tpl-desc{font-size:.6rem;color:var(--fg2);margin-top:.1rem}
+.tpl-nm{font-family:'Fredoka',sans-serif;font-weight:600;font-size:.7rem}
+.tpl-desc{font-size:.58rem;color:var(--fg2);margin-top:.05rem}
 
-.custom-panel{background:var(--card);border-radius:18px;padding:.85rem 1rem;box-shadow:0 4px 20px var(--shadow);border:2px solid var(--border);margin-bottom:1rem}
-.custom-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem;font-size:.8rem;font-weight:600;color:var(--fg2)}
-.custom-row:last-child{margin-bottom:0}
-.custom-row label{min-width:60px;font-size:.73rem}
-.custom-row input[type=range]{flex:1;accent-color:var(--accent);height:4px}
-.custom-row input[type=color]{width:32px;height:26px;border:2px solid var(--border);border-radius:8px;cursor:pointer;padding:0;background:none}
+.custom-panel{background:var(--card);border-radius:18px;padding:.75rem 1rem;box-shadow:0 4px 20px var(--shadow);border:2px solid var(--border);margin-bottom:1rem}
+.custom-row{display:flex;align-items:center;gap:.6rem;font-size:.8rem;font-weight:600;color:var(--fg2)}
+.custom-row label{min-width:44px;font-size:.73rem}
 .custom-row input[type=text]{flex:1;border:2px solid var(--border);border-radius:10px;padding:.35rem .7rem;font-family:'Quicksand',sans-serif;font-weight:600;font-size:.78rem;color:var(--fg);outline:none;transition:border-color .2s;background:var(--bg)}
 .custom-row input[type=text]:focus{border-color:var(--accent)}
-.custom-row span{min-width:48px;text-align:right;font-size:.7rem;font-variant-numeric:tabular-nums}
-.custom-hint{font-size:.6rem;color:var(--accent);font-weight:500;margin-top:-.2rem;margin-bottom:.5rem;display:flex;align-items:center;gap:.25rem}
-.custom-hint i{font-size:.55rem}
 
 .btn-go{font-family:'Fredoka',sans-serif;font-weight:700;border:none;cursor:pointer;border-radius:50px;padding:.95rem 2.5rem;font-size:1.1rem;display:flex;align-items:center;justify-content:center;gap:.5rem;margin:1.5rem auto 0;background:linear-gradient(135deg,var(--accent),#F5A0B5,var(--accent2));color:#fff;box-shadow:0 6px 28px rgba(242,139,158,.35);transition:all .25s;width:100%;max-width:300px}
 .btn-go:hover{transform:translateY(-3px);box-shadow:0 10px 36px rgba(242,139,158,.45)}
@@ -86,7 +87,7 @@ h1,h2,h3,h4{font-family:'Fredoka',sans-serif}
 .cam-top h2{font-size:1.05rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .btn-bk{background:var(--card);border:2px solid var(--border);color:var(--fg);border-radius:12px;padding:.3rem .7rem;cursor:pointer;font-size:.73rem;font-family:'Quicksand',sans-serif;font-weight:700;transition:all .2s;display:flex;align-items:center;gap:.25rem}
 .btn-bk:hover{border-color:var(--accent);color:var(--accent)}
-.info-pill{display:inline-flex;align-items:center;gap:.3rem;background:rgba(242,139,158,.1);border:1px solid rgba(242,139,158,.2);border-radius:20px;padding:.2rem .65rem;font-size:.63rem;font-weight:700;color:var(--accent);font-family:'Fredoka',sans-serif}
+.info-pill{display:inline-flex;align-items:center;gap:.3rem;background:rgba(242,139,158,.1);border:1px solid rgba(242,139,158,.2);border-radius:20px;padding:.2rem .65rem;font-size:.6rem;font-weight:700;color:var(--accent);font-family:'Fredoka',sans-serif}
 
 .cam-wrap{max-width:680px;margin:.4rem auto;padding:0 1rem}
 .cam-frame{position:relative;background:var(--card);border-radius:22px;box-shadow:0 6px 40px var(--shadow),0 0 0 2.5px var(--border);overflow:hidden;aspect-ratio:4/3}
@@ -156,7 +157,7 @@ footer{text-align:center;padding:1rem .8rem 1.5rem;color:var(--fg2);font-size:.7
 footer i{color:var(--accent)}
 
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-@media(max-width:640px){.fl-grid{grid-template-columns:repeat(auto-fill,minmax(58px,1fr))}.gal-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr))}.btn-cap{padding:.65rem 1.4rem;font-size:.9rem}.tpl-grid{grid-template-columns:repeat(2,1fr)}.frame-card{min-width:82px;max-width:82px}.cd-num{font-size:4.5rem}}
+@media(max-width:640px){.fl-grid{grid-template-columns:repeat(auto-fill,minmax(58px,1fr))}.gal-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr))}.btn-cap{padding:.65rem 1.4rem;font-size:.9rem}.tpl-grid{grid-template-columns:repeat(2,1fr)}.frame-card{min-width:78px;max-width:78px}.cd-num{font-size:4.5rem}}
 </style>
 </head>
 <body>
@@ -200,15 +201,15 @@ footer i{color:var(--accent)}
 </div>
 
 <div class="sec">
-<div class="sec-label"><i class="fa-solid fa-sliders"></i> Kustomisasi Card</div>
-<div class="custom-hint"><i class="fa-solid fa-circle-info"></i> Warna & bentuk diterapkan ke card Polaroid hasil, bukan preview kamera</div>
+<div class="sec-label"><i class="fa-solid fa-pen-fancy"></i> Teks Custom</div>
 <div class="custom-panel">
-<div class="custom-row"><label>Warna Card</label><input type="color" id="cFrameColor" value="#FAFAFA" oninput="updateFrameCustom()"><span id="cColorVal">#FAFAFA</span></div>
-<div class="custom-row"><label>Opacity</label><input type="range" id="cFrameOpacity" min="50" max="100" value="100" oninput="updateFrameCustom()"><span id="cOpacityVal">100%</span></div>
-<div class="custom-row"><label>Corner</label><input type="range" id="cFrameCorner" min="0" max="40" value="8" oninput="updateFrameCustom()"><span id="cCornerVal">8px</span></div>
-<div class="custom-row"><label>Glow</label><input type="range" id="cFrameGlow" min="0" max="30" value="0" oninput="updateFrameCustom()"><span id="cGlowVal">0</span></div>
-<div class="custom-row"><label>Teks</label><input type="text" id="cFrameText" placeholder="Teks di hasil foto..." maxlength="30" oninput="updateFrameCustom()"></div>
+<div class="custom-row"><label>Teks</label><input type="text" id="cFrameText" placeholder="Teks di hasil foto..." maxlength="40" oninput="updateFrameCustom()"></div>
 </div>
+</div>
+
+<div class="sec">
+<div class="sec-label"><i class="fa-solid fa-font"></i> Font Teks</div>
+<div class="font-scroll" id="fontScroll"></div>
 </div>
 
 <button class="btn-go" onclick="startSession()"><i class="fa-solid fa-camera"></i> Mulai Foto</button>
@@ -247,14 +248,11 @@ footer i{color:var(--accent)}
 /* ====== STATE ====== */
 let stream=null,currentFilter='none',photos=[],facingMode='user',isFlipped=true,isCapturing=false,multiImgs=[];
 let selFrame='classic',selTpl='grid2x2';
-/* frameCustom: hanya untuk card/container Polaroid LUAR */
-let frameCustom={color:'#FAFAFA',opacity:100,corner:8,glow:0,text:''};
+let frameCustom={text:'',font:'Caveat'};
 const video=document.getElementById('video');
-const camFrame=document.getElementById('camFrame');
 const camPh=document.getElementById('camPh');
 
 /* ====== CORNER DESIGN DEFINITIONS ====== */
-/* border dari definisi ini TIDAK pernah diubah kustomisasi — hanya style corner yang ikut */
 const frameDefs=[
 {id:'classic',name:'Classic',bg:'#FAFAFA',border:'#E8E4E0',dark:false,cr:8},
 {id:'sharp',name:'Sharp',bg:'#FAFAFA',border:'#D8D4D0',dark:false,cr:0},
@@ -270,13 +268,25 @@ const frameDefs=[
 {id:'night',name:'Night',bg:'#0D0D1A',border:'#333355',dark:true,cr:8},
 ];
 
-/* ====== TEMPLATE / LAYOUT DEFINITIONS ====== */
+/* ====== TEMPLATE LAYOUT DEFINITIONS ====== */
 const tplDefs=[
 {id:'grid2x2',name:'Grid 2x2',desc:'4 foto rapi',shots:4},
 {id:'strip',name:'Strip',desc:'Booth klasik',shots:4},
 {id:'polaroid',name:'Polaroid',desc:'Foto tunggal',shots:1},
 {id:'korean',name:'Korean',desc:'2 foto overlay',shots:2},
 {id:'purikura',name:'Purikura',desc:'3 foto dekoratif',shots:3},
+{id:'filmstrip',name:'Filmstrip',desc:'Gulungan film',shots:4},
+{id:'diptych',name:'Diptych',desc:'2 foto sejajar',shots:2},
+{id:'poster',name:'Poster',desc:'1+2 majalah',shots:3},
+];
+
+/* ====== FONT OPTIONS ====== */
+const fontOpts=[
+{id:'Caveat',name:'Caveat',sample:'Caveat',sizeMul:1},
+{id:'Dancing Script',name:'Dancing Script',sample:'Dancing Script',sizeMul:.85},
+{id:'Pacifico',name:'Pacifico',sample:'Pacifico',sizeMul:.68},
+{id:'Fredoka',name:'Fredoka',sample:'Fredoka',sizeMul:.72},
+{id:'Quicksand',name:'Quicksand',sample:'Quicksand',sizeMul:.68},
 ];
 
 /* ====== FILTERS ====== */
@@ -304,153 +314,74 @@ function rRect(ctx,x,y,w,h,r){
     ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();
 }
 function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+function getFD(){return frameDefs.find(f=>f.id===selFrame);}
+function getFont(){return fontOpts.find(f=>f.id===frameCustom.font)||fontOpts[0];}
 
-/* ============================================================
-   drawCornerDesign — HANYA untuk preview mini di halaman pilih.
-   Selalu pakai warna dari frameDefs, TIDAK terpengaruh frameCustom.
-   ============================================================ */
-function drawCornerDesign(ctx,w,h,frameId){
+/* ====== DRAW CARD STYLE (corner design) ====== */
+function drawCardStyle(ctx,w,h,frameId){
     const def=frameDefs.find(f=>f.id===frameId);if(!def)return;
-    const bgColor=def.bg;
-    const borderColor=def.border;
-    const cr=def.cr;
-
     ctx.save();
-    // Background
-    ctx.fillStyle=bgColor;
-    rRect(ctx,0,0,w,h,cr);ctx.fill();
-
-    // Border style berdasarkan corner design
-    ctx.strokeStyle=borderColor;
-
-    if(frameId==='classic'){
-        ctx.lineWidth=1.5;rRect(ctx,1.5,1.5,w-3,h-3,cr);ctx.stroke();
-    }else if(frameId==='sharp'){
-        ctx.lineWidth=2;ctx.strokeRect(2,2,w-4,h-4);
-    }else if(frameId==='rounded'){
-        ctx.lineWidth=1;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
-    }else if(frameId==='puffy'){
-        ctx.lineWidth=1.5;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
-        ctx.globalAlpha=.3;rRect(ctx,6,6,w-12,h-12,Math.max(0,cr-3));ctx.stroke();
-    }else if(frameId==='pastel'){
-        ctx.lineWidth=1;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
-        ctx.globalAlpha=.15;rRect(ctx,6,6,w-12,h-12,Math.max(0,cr-2));ctx.stroke();
-    }else if(frameId==='peach'){
-        ctx.lineWidth=1.5;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
-    }else if(frameId==='mint'){
-        ctx.lineWidth=1;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
-    }else if(frameId==='sky'){
-        ctx.lineWidth=1.5;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
-    }else if(frameId==='cream'){
-        ctx.lineWidth=2;rRect(ctx,1.5,1.5,w-3,h-3,cr);ctx.stroke();
-        ctx.globalAlpha=.2;ctx.lineWidth=1;rRect(ctx,5,5,w-10,h-10,Math.max(0,cr-2));ctx.stroke();
-    }else if(frameId==='rose'){
-        ctx.lineWidth=1.5;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
-    }else if(frameId==='dark'){
-        ctx.strokeStyle='#444';ctx.lineWidth=1.5;rRect(ctx,1.5,1.5,w-3,h-3,cr);ctx.stroke();
-    }else if(frameId==='night'){
-        ctx.strokeStyle='#333355';ctx.lineWidth=1;rRect(ctx,1.5,1.5,w-3,h-3,cr);ctx.stroke();
-        ctx.globalAlpha=.15;ctx.strokeStyle='#4444AA';rRect(ctx,5,5,w-10,h-10,Math.max(0,cr-2));ctx.stroke();
-    }
+    ctx.fillStyle=def.bg;rRect(ctx,0,0,w,h,def.cr);ctx.fill();
+    ctx.strokeStyle=def.border;
+    if(frameId==='classic'){ctx.lineWidth=1.5;rRect(ctx,1.5,1.5,w-3,h-3,def.cr);ctx.stroke();}
+    else if(frameId==='sharp'){ctx.lineWidth=2;ctx.strokeRect(2,2,w-4,h-4);}
+    else if(frameId==='rounded'||frameId==='peach'||frameId==='mint'){ctx.lineWidth=1;rRect(ctx,2,2,w-4,h-4,def.cr);ctx.stroke();}
+    else if(frameId==='puffy'){ctx.lineWidth=1.5;rRect(ctx,2,2,w-4,h-4,def.cr);ctx.stroke();ctx.globalAlpha=.3;rRect(ctx,6,6,w-12,h-12,Math.max(0,def.cr-3));ctx.stroke();}
+    else if(frameId==='pastel'){ctx.lineWidth=1;rRect(ctx,2,2,w-4,h-4,def.cr);ctx.stroke();ctx.globalAlpha=.15;rRect(ctx,6,6,w-12,h-12,Math.max(0,def.cr-2));ctx.stroke();}
+    else if(frameId==='sky'){ctx.lineWidth=1.5;rRect(ctx,2,2,w-4,h-4,def.cr);ctx.stroke();}
+    else if(frameId==='cream'){ctx.lineWidth=2;rRect(ctx,1.5,1.5,w-3,h-3,def.cr);ctx.stroke();ctx.globalAlpha=.2;ctx.lineWidth=1;rRect(ctx,5,5,w-10,h-10,Math.max(0,def.cr-2));ctx.stroke();}
+    else if(frameId==='rose'){ctx.lineWidth=1.5;rRect(ctx,2,2,w-4,h-4,def.cr);ctx.stroke();}
+    else if(frameId==='dark'){ctx.strokeStyle='#444';ctx.lineWidth=1.5;rRect(ctx,1.5,1.5,w-3,h-3,def.cr);ctx.stroke();}
+    else if(frameId==='night'){ctx.strokeStyle='#333355';ctx.lineWidth=1;rRect(ctx,1.5,1.5,w-3,h-3,def.cr);ctx.stroke();ctx.globalAlpha=.15;ctx.strokeStyle='#4444AA';rRect(ctx,5,5,w-10,h-10,Math.max(0,def.cr-2));ctx.stroke();}
     ctx.restore();
 }
 
-/* ============================================================
-   drawOuterCard — KHUSUS untuk container/card Polaroid pada HASIL FOTO.
-   Membaca frameCustom (warna, opacity, corner, glow).
-   border-nya tetap pakai frameDefs agar style corner konsisten.
-   ============================================================ */
-function drawOuterCard(ctx,w,h,frameId,fc){
-    const def=frameDefs.find(f=>f.id===frameId);if(!def)return;
-    const bgColor=fc.color;
-    const borderColor=def.border; // border tetap dari definisi corner design
-    const cr=fc.corner;
-    const op=fc.opacity/100;
-    const glow=fc.glow;
+/* ====== DRAW HAND TEXT ====== */
+function drawHandText(ctx,x,y,text,maxW,color,fontSize,fontFamily,sizeMul){
+    if(!text)return;
+    const sz=Math.round((fontSize||28)*(sizeMul||1));
+    ctx.save();ctx.font=`${sz}px '${fontFamily||'Caveat'}',cursive`;ctx.fillStyle=color;ctx.textAlign='center';ctx.textBaseline='middle';
+    const words=text.split(' ');let line='',lines=[];
+    for(const w of words){const t=line+w+' ';if(ctx.measureText(t).width>maxW&&line){lines.push(line.trim());line=w+' ';}else line=t;}
+    lines.push(line.trim());const lh=sz*1.3;const sy=y-(lines.length-1)*lh/2;
+    lines.forEach((l,i)=>ctx.fillText(l,x,sy+i*lh));ctx.restore();
+}
 
-    ctx.save();
-    ctx.globalAlpha=op;
-
-    // Glow effect pada card luar
-    if(glow>0){
-        ctx.shadowColor=borderColor;
-        ctx.shadowBlur=glow;
-    }
-
-    // Background card luar — pakai warna kustomisasi
-    ctx.fillStyle=bgColor;
-    rRect(ctx,0,0,w,h,cr);ctx.fill();
-
-    // Reset shadow sebelum border
-    ctx.shadowColor='transparent';ctx.shadowBlur=0;
-
-    // Border card luar — style dari corner design, radius dari kustomisasi
-    ctx.strokeStyle=borderColor;
-
-    if(frameId==='classic'){
-        ctx.lineWidth=1.5;rRect(ctx,1.5,1.5,w-3,h-3,cr);ctx.stroke();
-    }else if(frameId==='sharp'){
-        ctx.lineWidth=2;ctx.strokeRect(2,2,w-4,h-4);
-    }else if(frameId==='rounded'){
-        ctx.lineWidth=1;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
-    }else if(frameId==='puffy'){
-        ctx.lineWidth=1.5;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
-        ctx.globalAlpha=op*.3;rRect(ctx,6,6,w-12,h-12,Math.max(0,cr-3));ctx.stroke();
-    }else if(frameId==='pastel'){
-        ctx.lineWidth=1;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
-        ctx.globalAlpha=op*.15;rRect(ctx,6,6,w-12,h-12,Math.max(0,cr-2));ctx.stroke();
-    }else if(frameId==='peach'){
-        ctx.lineWidth=1.5;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
-    }else if(frameId==='mint'){
-        ctx.lineWidth=1;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
-    }else if(frameId==='sky'){
-        ctx.lineWidth=1.5;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
-    }else if(frameId==='cream'){
-        ctx.lineWidth=2;rRect(ctx,1.5,1.5,w-3,h-3,cr);ctx.stroke();
-        ctx.globalAlpha=op*.2;ctx.lineWidth=1;rRect(ctx,5,5,w-10,h-10,Math.max(0,cr-2));ctx.stroke();
-    }else if(frameId==='rose'){
-        ctx.lineWidth=1.5;rRect(ctx,2,2,w-4,h-4,cr);ctx.stroke();
-    }else if(frameId==='dark'){
-        ctx.strokeStyle='#444';ctx.lineWidth=1.5;rRect(ctx,1.5,1.5,w-3,h-3,cr);ctx.stroke();
-    }else if(frameId==='night'){
-        ctx.strokeStyle='#333355';ctx.lineWidth=1;rRect(ctx,1.5,1.5,w-3,h-3,cr);ctx.stroke();
-        ctx.globalAlpha=op*.15;ctx.strokeStyle='#4444AA';rRect(ctx,5,5,w-10,h-10,Math.max(0,cr-2));ctx.stroke();
-    }
-
-    ctx.restore();
+function drawWatermark(x,w,h){
+    x.save();const dk=getFD()?.dark;
+    x.font=`bold ${Math.round(Math.min(w,h)*.018)}px Fredoka,sans-serif`;x.textAlign='right';x.textBaseline='bottom';
+    x.fillStyle=dk?'rgba(255,255,255,.3)':'rgba(0,0,0,.12)';x.fillText('Ponyo Booth',w-12,h-8);x.restore();
+}
+function drawDate(ctx,x,y,color,fs){
+    ctx.save();ctx.font=`${fs||16}px Quicksand,sans-serif`;ctx.fillStyle=color;ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(new Date().toLocaleDateString('id-ID'),x,y);ctx.restore();
+}
+function drawTextBlock(ctx,x,y,maxW,dk){
+    const f=getFont();const tc=dk?'rgba(255,255,255,.7)':'rgba(80,60,50,.7)';
+    drawHandText(ctx,x,y,frameCustom.text||'Ponyo Booth',maxW,tc,0,f.id,f.sizeMul);
 }
 
 /* ====== BUILD CORNER DESIGN SELECTION ====== */
 function buildFrameScroll(){
     const sc=document.getElementById('frameScroll');sc.innerHTML='';
     frameDefs.forEach(f=>{
-        const card=document.createElement('div');
-        card.className='frame-card'+(f.id===selFrame?' sel':'');
-        card.dataset.fid=f.id;
+        const card=document.createElement('div');card.className='frame-card'+(f.id===selFrame?' sel':'');card.dataset.fid=f.id;
         card.onclick=()=>{selFrame=f.id;document.querySelectorAll('.frame-card').forEach(c=>c.classList.toggle('sel',c.dataset.fid===f.id));drawTplPreviews();};
         card.innerHTML=`<div class="frame-mini"><canvas id="fm_${f.id}"></canvas></div><div class="frame-nm">${f.name}</div>`;
         sc.appendChild(card);
     });
     setTimeout(()=>{
         frameDefs.forEach(f=>{
-            const c=document.getElementById('fm_'+f.id);if(!c)return;
-            c.width=120;c.height=160;const x=c.getContext('2d');
-            // Preview mini — pakai drawCornerDesign (tidak terpengaruh frameCustom)
-            drawCornerDesign(x,120,160,f.id);
-            // Placeholder foto di tengah
-            const m=8,fcR=Math.min(f.cr,10);
-            x.save();
-            rRect(x,m,m,104,100,fcR);x.clip();
-            x.fillStyle=f.dark?'#2A2520':'#F0EAE2';
-            x.fillRect(m,m,104,100);
+            const c=document.getElementById('fm_'+f.id);if(!c)return;c.width=120;c.height=160;const x=c.getContext('2d');
+            drawCardStyle(x,120,160,f.id);
+            const m=8;const fcr=Math.min(f.cr,10);
+            x.save();rRect(x,m,m,104,100,fcr);x.clip();
+            x.fillStyle=f.dark?'#2A2520':'#F0EAE2';x.fillRect(m,m,104,100);
             x.fillStyle=f.dark?'rgba(255,255,255,.3)':'rgba(0,0,0,.1)';
-            x.font='22px serif';x.textAlign='center';x.textBaseline='middle';
-            x.fillText('\u{1F4F7}',60,m+50);
+            x.font='22px serif';x.textAlign='center';x.textBaseline='middle';x.fillText('\u{1F4F7}',60,m+50);
             x.restore();
-            // Area bawah
             x.save();x.globalAlpha=.3;x.fillStyle=f.dark?'#FFFFFF':'#4A3F3A';
-            x.font='8px Caveat,cursive';x.textAlign='center';x.textBaseline='middle';
-            x.fillText('xoxo ~',60,130);x.restore();
+            x.font='8px Caveat,cursive';x.textAlign='center';x.textBaseline='middle';x.fillText('xoxo ~',60,130);x.restore();
         });
     },50);
 }
@@ -459,9 +390,7 @@ function buildFrameScroll(){
 function buildTplGrid(){
     const g=document.getElementById('tplGrid');g.innerHTML='';
     tplDefs.forEach(t=>{
-        const card=document.createElement('div');
-        card.className='tpl-card'+(t.id===selTpl?' sel':'');
-        card.dataset.tid=t.id;
+        const card=document.createElement('div');card.className='tpl-card'+(t.id===selTpl?' sel':'');card.dataset.tid=t.id;
         card.onclick=()=>{selTpl=t.id;document.querySelectorAll('.tpl-card').forEach(c=>c.classList.toggle('sel',c.dataset.tid===t.id));};
         card.innerHTML=`<div class="tpl-mini"><canvas id="tm_${t.id}"></canvas></div><div class="tpl-nm">${t.name}</div><div class="tpl-desc">${t.desc}</div>`;
         g.appendChild(card);
@@ -472,78 +401,45 @@ function buildTplGrid(){
 function drawTplPreviews(){
     tplDefs.forEach(t=>{
         const c=document.getElementById('tm_'+t.id);if(!c)return;c.width=140;c.height=140;
-        const x=c.getContext('2d');
-        const def=frameDefs.find(f=>f.id===selFrame);
-        // Preview mini template — pakai drawCornerDesign (tidak terpengaruh frameCustom)
-        drawCornerDesign(x,140,140,selFrame);
-        x.fillStyle=def?.dark?'#2A2520':'#F0EAE2';
-        x.font='14px serif';x.textAlign='center';x.textBaseline='middle';
-        if(t.id==='grid2x2'){
-            const m=8,gap=4,s=(140-m*2-gap)/2;
-            for(let r=0;r<2;r++)for(let col=0;col<2;col++){
-                x.save();rRect(x,m+col*(s+gap),m+r*(s+gap),s,s,4);x.clip();
-                x.fillStyle=def?.dark?'#2A2520':'#F0EAE2';x.fillRect(m+col*(s+gap),m+r*(s+gap),s,s);
-                x.fillStyle=def?.dark?'rgba(255,255,255,.3)':'rgba(0,0,0,.1)';
-                x.fillText('\u{1F4F7}',m+col*(s+gap)+s/2,m+r*(s+gap)+s/2);x.restore();
-            }
-        }else if(t.id==='strip'){
-            const m=8,gap=4,s=(140-m*2-gap*3)/4;
-            for(let i=0;i<4;i++){
-                x.save();rRect(x,m+i*(s+gap),m,s,140-m*2,4);x.clip();
-                x.fillStyle=def?.dark?'#2A2520':'#F0EAE2';x.fillRect(m+i*(s+gap),m,s,140-m*2);
-                x.fillStyle=def?.dark?'rgba(255,255,255,.3)':'rgba(0,0,0,.1)';
-                x.fillText('\u{1F4F7}',m+i*(s+gap)+s/2,70);x.restore();
-            }
-        }else if(t.id==='polaroid'){
-            x.save();rRect(x,12,12,116,80,4);x.clip();
-            x.fillStyle=def?.dark?'#2A2520':'#F0EAE2';x.fillRect(12,12,116,80);
-            x.fillStyle=def?.dark?'rgba(255,255,255,.3)':'rgba(0,0,0,.1)';
-            x.fillText('\u{1F4F7}',70,52);x.restore();
-        }else if(t.id==='korean'){
-            x.save();rRect(x,5,5,130,130,4);x.clip();
-            x.fillStyle=def?.dark?'#2A2520':'#F0EAE2';x.fillRect(5,5,130,130);
-            x.fillStyle=def?.dark?'rgba(255,255,255,.3)':'rgba(0,0,0,.1)';
-            x.fillText('\u{1F4F7}',50,55);x.fillText('\u{1F4F7}',105,85);x.restore();
-        }else if(t.id==='purikura'){
-            const m=10,gap=5,s=(140-m*2-gap*2)/3;
-            for(let i=0;i<3;i++){
-                x.save();rRect(x,m+i*(s+gap),m,s,100,4);x.clip();
-                x.fillStyle=def?.dark?'#2A2520':'#F0EAE2';x.fillRect(m+i*(s+gap),m,s,100);
-                x.fillStyle=def?.dark?'rgba(255,255,255,.3)':'rgba(0,0,0,.1)';
-                x.fillText('\u{1F4F7}',m+i*(s+gap)+s/2,50);x.restore();
-            }
-        }
+        const x=c.getContext('2d');const dk=getFD()?.dark;
+        drawCardStyle(x,140,140,selFrame);
+        const bg=dk?'#2A2520':'#F0EAE2';const ic=dk?'rgba(255,255,255,.3)':'rgba(0,0,0,.1)';
+        x.font='12px serif';x.textAlign='center';x.textBaseline='middle';
+        if(t.id==='grid2x2'){const m=8,g=4,s=(140-m*2-g)/2;for(let r=0;r<2;r++)for(let col=0;col<2;col++){x.save();rRect(x,m+col*(s+g),m+r*(s+g),s,s,3);x.clip();x.fillStyle=bg;x.fillRect(m+col*(s+g),m+r*(s+g),s,s);x.fillStyle=ic;x.fillText('\u{1F4F7}',m+col*(s+g)+s/2,m+r*(s+g)+s/2);x.restore();}}
+        else if(t.id==='strip'){const m=8,g=3,s=(140-m*2-g*3)/4;for(let i=0;i<4;i++){x.save();rRect(x,m+i*(s+g),m,s,124,3);x.clip();x.fillStyle=bg;x.fillRect(m+i*(s+g),m,s,124);x.fillStyle=ic;x.fillText('\u{1F4F7}',m+i*(s+g)+s/2,70);x.restore();}}
+        else if(t.id==='polaroid'){x.save();rRect(x,12,10,116,78,3);x.clip();x.fillStyle=bg;x.fillRect(12,10,116,78);x.fillStyle=ic;x.fillText('\u{1F4F7}',70,49);x.restore();}
+        else if(t.id==='korean'){x.save();rRect(x,5,5,130,100,3);x.clip();x.fillStyle=bg;x.fillRect(5,5,130,100);x.fillStyle=ic;x.fillText('\u{1F4F7}',50,55);x.restore();x.save();rRect(x,85,75,45,35,3);x.clip();x.fillStyle=dk?'#3A3530':'#E8E0D8';x.fillRect(85,75,45,35);x.fillStyle=ic;x.font='10px serif';x.fillText('\u{1F4F7}',107,92);x.restore();}
+        else if(t.id==='purikura'){const m=10,g=4,s=(140-m*2-g*2)/3;for(let i=0;i<3;i++){x.save();rRect(x,m+i*(s+g),m,s,95,3);x.clip();x.fillStyle=bg;x.fillRect(m+i*(s+g),m,s,95);x.fillStyle=ic;x.font='12px serif';x.fillText('\u{1F4F7}',m+i*(s+g)+s/2,48);x.restore();}}
+        else if(t.id==='filmstrip'){x.fillStyle='#1a1a1a';rRect(x,5,5,130,130,4);x.fill();const spH=8,ph=114,pw=Math.round(ph*.5),pg=4,ps=6,pfx=5+ps;for(let i=0;i<4;i++){x.save();rRect(x,pfx+i*(pw+pg),5+spH,pw,ph,2);x.clip();x.fillStyle='#3A3530';x.fillRect(pfx+i*(pw+pg),5+spH,pw,ph);x.fillStyle='rgba(255,255,255,.2)';x.font='10px serif';x.fillText('\u{1F4F7}',pfx+i*(pw+pg)+pw/2,5+spH+ph/2);x.restore();}x.fillStyle='#555';for(let i=0;i<10;i++){rRect(x,10+i*12,7,6,spH-2,1);x.fill();rRect(x,10+i*12,130-spH+1,6,spH-2,1);x.fill();}}
+        else if(t.id==='diptych'){const m=8,g=4,s=(140-m*2-g)/2;for(let i=0;i<2;i++){x.save();rRect(x,m+i*(s+g),m,s,124,3);x.clip();x.fillStyle=bg;x.fillRect(m+i*(s+g),m,s,124);x.fillStyle=ic;x.fillText('\u{1F4F7}',m+i*(s+g)+s/2,65);x.restore();}x.save();x.globalAlpha=.15;x.strokeStyle=dk?'#fff':'#4A3F3A';x.lineWidth=1;x.setLineDash([3,3]);x.beginPath();x.moveTo(70,8);x.lineTo(70,132);x.stroke();x.restore();}
+        else if(t.id==='poster'){const m=8,g=4,lw=Math.round((124-g)*.6),rw=124-g-lw,rh=Math.round((124-g)/2);x.save();rRect(x,m,m,lw,124,3);x.clip();x.fillStyle=bg;x.fillRect(m,m,lw,124);x.fillStyle=ic;x.fillText('\u{1F4F7}',m+lw/2,65);x.restore();x.save();rRect(x,m+lw+g,m,rw,rh,3);x.clip();x.fillStyle=bg;x.fillRect(m+lw+g,m,rw,rh);x.fillStyle=ic;x.font='10px serif';x.fillText('\u{1F4F7}',m+lw+g+rw/2,m+rh/2);x.restore();x.save();rRect(x,m+lw+g,m+rh+g,rw,124-rh-g,3);x.clip();x.fillStyle=bg;x.fillRect(m+lw+g,m+rh+g,rw,124-rh-g);x.fillStyle=ic;x.font='10px serif';x.fillText('\u{1F4F7}',m+lw+g+rw/2,m+rh+g+(124-rh-g)/2);x.restore();}
+    });
+}
+
+/* ====== BUILD FONT SELECTION ====== */
+function buildFontScroll(){
+    const sc=document.getElementById('fontScroll');sc.innerHTML='';
+    fontOpts.forEach(f=>{
+        const card=document.createElement('div');card.className='font-card'+(f.id===frameCustom.font?' sel':'');card.dataset.fid=f.id;
+        card.onclick=()=>{frameCustom.font=f.id;document.querySelectorAll('.font-card').forEach(c=>c.classList.toggle('sel',c.dataset.fid===f.id));};
+        card.innerHTML=`<span style="font-family:'${f.id}',cursive;font-size:.9rem;font-weight:600">${f.sample}</span>`;
+        sc.appendChild(card);
     });
 }
 
 /* ====== FRAME CUSTOM UPDATE ====== */
-/* Hanya update nilai state — preview mini tidak perlu redraw karena tidak terpengaruh */
-function updateFrameCustom(){
-    frameCustom.color=document.getElementById('cFrameColor').value;
-    frameCustom.opacity=parseInt(document.getElementById('cFrameOpacity').value);
-    frameCustom.corner=parseInt(document.getElementById('cFrameCorner').value);
-    frameCustom.glow=parseInt(document.getElementById('cFrameGlow').value);
-    frameCustom.text=document.getElementById('cFrameText').value;
-    document.getElementById('cColorVal').textContent=frameCustom.color;
-    document.getElementById('cOpacityVal').textContent=frameCustom.opacity+'%';
-    document.getElementById('cCornerVal').textContent=frameCustom.corner+'px';
-    document.getElementById('cGlowVal').textContent=frameCustom.glow;
-    /* Tidak perlu rebuild frameScroll atau tplPreviews karena preview mini tidak terpengaruh kustomisasi */
-}
+function updateFrameCustom(){frameCustom.text=document.getElementById('cFrameText').value;}
 
-/* ====== START SESSION ====== */
+/* ====== START / BACK ====== */
 function startSession(){
-    const tDef=tplDefs.find(t=>t.id===selTpl);
-    const fDef=frameDefs.find(f=>f.id===selFrame);
+    const tDef=tplDefs.find(t=>t.id===selTpl);const fDef=getFD();
     document.getElementById('infoPill').innerHTML=`<i class="fa-solid fa-vector-square" style="font-size:.5rem"></i> ${fDef.name} &middot; ${tDef.name}`;
     document.getElementById('scrTpl').classList.add('hide');
     setTimeout(()=>{document.getElementById('scrCam').classList.remove('hide');startCamera();},300);
 }
-
 function backToTpl(){
     if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}
-    multiImgs=[];
-    document.getElementById('scrCam').classList.add('hide');
+    multiImgs=[];document.getElementById('scrCam').classList.add('hide');
     setTimeout(()=>{document.getElementById('scrTpl').classList.remove('hide');},300);
 }
 
@@ -551,32 +447,25 @@ function backToTpl(){
 async function startCamera(){
     try{
         stream=await navigator.mediaDevices.getUserMedia({video:{facingMode,width:{ideal:1280},height:{ideal:960}},audio:false});
-        video.srcObject=stream;await video.play();
-        camPh.style.display='none';
+        video.srcObject=stream;await video.play();camPh.style.display='none';
         showToast('Kamera aktif!','fa-solid fa-check');
     }catch(e){showToast('Gagal akses kamera: '+e.message,'fa-solid fa-triangle-exclamation');}
 }
-
 function flipCam(){
-    facingMode=facingMode==='user'?'environment':'user';
-    isFlipped=facingMode==='user';
+    facingMode=facingMode==='user'?'environment':'user';isFlipped=facingMode==='user';
     video.style.transform=`scaleX(${isFlipped?'-1':'1'})`;
-    if(stream)stream.getTracks().forEach(t=>t.stop());
-    startCamera();
+    if(stream)stream.getTracks().forEach(t=>t.stop());startCamera();
 }
 
 /* ====== FILTER ====== */
 function initFlGrid(){
     const g=document.getElementById('flGrid');
     filters.forEach(f=>{
-        const item=document.createElement('div');
-        item.className='fl-item'+(f.id==='none'?' on':'');item.dataset.f=f.id;
+        const item=document.createElement('div');item.className='fl-item'+(f.id==='none'?' on':'');item.dataset.f=f.id;
         item.onclick=()=>{currentFilter=f.id;video.style.filter=filters.find(x=>x.id===f.id).css;document.querySelectorAll('.fl-item').forEach(el=>el.classList.toggle('on',el.dataset.f===f.id));};
-        item.innerHTML=`<div class="fl-prev"></div><div class="fl-nm">${f.name}</div>`;
-        g.appendChild(item);
+        item.innerHTML=`<div class="fl-prev"></div><div class="fl-nm">${f.name}</div>`;g.appendChild(item);
     });
 }
-
 function updTimerLbl(){const v=document.getElementById('timerSlider').value;document.getElementById('timerLbl').textContent=v==0?'Langsung':v+' detik';}
 
 /* ====== CAPTURE ====== */
@@ -585,23 +474,17 @@ async function handleCap(){if(!stream||isCapturing)return;await multiShotCap();}
 async function multiShotCap(){
     isCapturing=true;document.getElementById('btnCap').disabled=true;multiImgs=[];
     const tv=parseInt(document.getElementById('timerSlider').value);
-    const tDef=tplDefs.find(t=>t.id===selTpl);
-    const total=tDef.shots;
+    const tDef=tplDefs.find(t=>t.id===selTpl);const total=tDef.shots;
     for(let i=0;i<total;i++){
         document.getElementById('capTxt').textContent=`${i+1} / ${total}`;
-        await runCd(tv,`Foto ${i+1} dari ${total}`);
-        playShutter();flashFx();
-        multiImgs.push(captureRaw());
-        if(i<total-1)await sleep(400);
+        await runCd(tv,`Foto ${i+1} dari ${total}`);playShutter();flashFx();
+        multiImgs.push(captureRaw());if(i<total-1)await sleep(400);
     }
     document.getElementById('capTxt').textContent='Ambil Foto';
     const finalUrl=assembleResult(multiImgs);
-    photos.push({url:finalUrl});
-    playPrint();
-    showPrintAnimation(finalUrl);
+    photos.push({url:finalUrl});playPrint();showPrintAnimation(finalUrl);
     setTimeout(()=>{playDone();launchConfetti();},800);
-    updateGallery();
-    showToast('Foto selesai!','fa-solid fa-images');
+    updateGallery();showToast('Foto selesai!','fa-solid fa-images');
     isCapturing=false;document.getElementById('btnCap').disabled=false;
 }
 
@@ -617,261 +500,227 @@ function captureRaw(){
     if(isFlipped){x.translate(cw,0);x.scale(-1,1);}x.drawImage(video,0,0,cw,ch);return c;
 }
 
-/* ====== PRINT ANIMATION ====== */
-function showPrintAnimation(url){
-    const el=document.getElementById('printDrop');const img=document.getElementById('printImg');
-    img.src=url;el.classList.add('on');setTimeout(()=>el.classList.remove('on'),2200);
-}
+function showPrintAnimation(url){const el=document.getElementById('printDrop');const img=document.getElementById('printImg');img.src=url;el.classList.add('on');setTimeout(()=>el.classList.remove('on'),2200);}
 
-/* ====== ASSEMBLE RESULT — pakai drawOuterCard untuk card luar ====== */
+/* ====== ASSEMBLE RESULT ====== */
 function assembleResult(imgs){
     if(selTpl==='grid2x2')return asmGrid(imgs);
     if(selTpl==='strip')return asmStrip(imgs);
     if(selTpl==='polaroid')return asmPolaroid(imgs);
     if(selTpl==='korean')return asmKorean(imgs);
     if(selTpl==='purikura')return asmPurikura(imgs);
+    if(selTpl==='filmstrip')return asmFilmstrip(imgs);
+    if(selTpl==='diptych')return asmDiptych(imgs);
+    if(selTpl==='poster')return asmPoster(imgs);
     return asmGrid(imgs);
 }
 
-function getFD(){return frameDefs.find(f=>f.id===selFrame);}
-
-/* Helper: gambar teks tulisan tangan */
-function drawHandText(ctx,x,y,text,maxW,color,fontSize){
-    if(!text)return;
-    ctx.save();
-    ctx.font=`${fontSize||28}px Caveat,cursive`;
-    ctx.fillStyle=color;ctx.textAlign='center';ctx.textBaseline='middle';
-    const words=text.split(' ');let line='';let lines=[];
-    for(const w of words){
-        const test=line+w+' ';
-        if(ctx.measureText(test).width>maxW&&line){lines.push(line.trim());line=w+' ';}
-        else line=test;
-    }
-    lines.push(line.trim());
-    const lh=(fontSize||28)*1.3;
-    const startY=y-(lines.length-1)*lh/2;
-    lines.forEach((l,i)=>ctx.fillText(l,x,startY+i*lh));
-    ctx.restore();
+/* ===== HELPER: shadow di belakang foto ====== */
+function drawPhotoShadow(ctx,x,y,w,h,r){
+    ctx.save();ctx.shadowColor='rgba(0,0,0,.07)';ctx.shadowBlur=7;ctx.shadowOffsetY=2;
+    ctx.fillStyle='rgba(0,0,0,0)';rRect(ctx,x,y,w,h,r);ctx.fill();ctx.restore();
 }
 
-function drawWatermark(x,w,h){
-    x.save();const isDark=getFD()?.dark;
-    x.font=`bold ${Math.round(Math.min(w,h)*.018)}px Fredoka,sans-serif`;
-    x.textAlign='right';x.textBaseline='bottom';
-    x.fillStyle=isDark?'rgba(255,255,255,.3)':'rgba(0,0,0,.12)';
-    x.fillText('Ponyo Booth',w-12,h-8);x.restore();
-}
-
-function drawDate(ctx,x,y,color,fontSize){
-    ctx.save();ctx.font=`${fontSize||16}px Quicksand,sans-serif`;ctx.fillStyle=color;ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillText(new Date().toLocaleDateString('id-ID'),x,y);ctx.restore();
-}
-
-/* ============================================================
-   POLAROID — card luar pakai drawOuterCard (warna kustomisasi),
-   foto di tengah TANPA border tambahan dari kustomisasi.
-   ============================================================ */
+/* ===== POLAROID ====== */
 function asmPolaroid(imgs){
     const sw=imgs[0].width,sh=imgs[0].height;
-    const mSide=Math.round(sw*.045);
-    const mTop=Math.round(sh*.04);
-    const mBot=Math.round(sh*.28);
-    const cr=frameCustom.corner||8;
-    const w=sw+mSide*2,h=sh+mTop+mBot;
+    const mS=Math.round(sw*.045),mT=Math.round(sh*.04),mB=Math.round(sh*.28);
+    const cr=getFD()?.cr||8;
+    const w=sw+mS*2,h=sh+mT+mB;
     const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');
-
-    // 1. Card luar — pakai drawOuterCard (warna kustomisasi di sini)
-    drawOuterCard(x,w,h,selFrame,frameCustom);
-
-    // 2. Shadow halus di belakang foto (bukan border)
-    x.save();
-    x.shadowColor='rgba(0,0,0,.08)';x.shadowBlur=8;x.shadowOffsetY=2;
-    x.fillStyle='rgba(0,0,0,0)';
-    rRect(x,mSide,mTop,sw,sh,Math.min(cr,4));x.fill();
-    x.restore();
-
-    // 3. Gambar foto langsung — tanpa border/frame
-    x.save();
-    rRect(x,mSide,mTop,sw,sh,Math.min(cr,4));x.clip();
-    x.drawImage(imgs[0],mSide,mTop,sw,sh);
-    x.restore();
-
-    // 4. Teks di area bawah card
-    const isDark=getFD()?.dark;
-    const textColor=isDark?'rgba(255,255,255,.65)':'rgba(80,60,50,.6)';
-    const dateColor=isDark?'rgba(255,255,255,.3)':'rgba(80,60,50,.3)';
-    const textAreaY=mTop+sh+mBot/2;
-    const textAreaW=sw-20;
-
-    if(frameCustom.text){
-        drawHandText(x,w/2,textAreaY-8,frameCustom.text,textAreaW,textColor,Math.round(sh*.045));
-    }else{
-        drawHandText(x,w/2,textAreaY-8,'xoxo ~',textAreaW,textColor,Math.round(sh*.045));
-    }
-
-    // 5. Tanggal kecil
-    drawDate(x,w/2,textAreaY+mBot*.28,dateColor,Math.round(sh*.025));
-
-    // 6. Watermark
-    drawWatermark(x,w,h);
-    return c.toDataURL('image/png');
+    drawCardStyle(x,w,h,selFrame);
+    drawPhotoShadow(x,mS,mT,sw,sh,Math.min(cr,4));
+    x.save();rRect(x,mS,mT,sw,sh,Math.min(cr,4));x.clip();x.drawImage(imgs[0],mS,mT,sw,sh);x.restore();
+    const dk=getFD()?.dark;
+    const taY=mT+sh+mB/2;
+    drawTextBlock(x,w/2,taY-8,sw-20,dk);
+    drawDate(x,w/2,taY+mB*.28,dk?'rgba(255,255,255,.3)':'rgba(80,60,50,.3)',Math.round(sh*.025));
+    drawWatermark(x,w,h);return c.toDataURL('image/png');
 }
 
-/* ===== GRID 2x2 ===== */
+/* ===== GRID 2x2 ====== */
 function asmGrid(imgs){
     const sw=imgs[0].width,sh=imgs[0].height;
-    const pad=Math.round(sw*.025);
-    const mSide=Math.round(sw*.03);
-    const mTop=Math.round(sh*.04);
-    const mBot=Math.round(sh*.12);
-    const cr=frameCustom.corner||8;
-    const fotoCR=Math.min(cr,4);
-
-    const w=sw*2+pad*3+mSide*2;
-    const h=sh*2+pad*3+mTop+mBot;
+    const pad=Math.round(sw*.025),mS=Math.round(sw*.03),mT=Math.round(sh*.04),mB=Math.round(sh*.12);
+    const cr=getFD()?.cr||8;const fcr=Math.min(cr,4);
+    const w=sw*2+pad*3+mS*2,h=sh*2+pad*3+mT+mB;
     const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');
-
-    // Card luar — warna kustomisasi
-    drawOuterCard(x,w,h,selFrame,frameCustom);
-
-    // Judul
-    const isDark=getFD()?.dark;
-    const textColor=isDark?'rgba(255,255,255,.7)':'rgba(80,60,50,.7)';
-    drawHandText(x,w/2,mTop+mBot*.35,frameCustom.text||'Ponyo Booth',w-40,textColor,Math.round(mBot*.4));
-
-    // 4 foto — tanpa border kustomisasi
-    const sy=mTop+mBot*.6;
-    for(let i=0;i<4;i++){
-        const col=i%2,row=Math.floor(i/2);
-        const px=mSide+pad+col*(sw+pad);
-        const py=sy+pad+row*(sh+pad);
-        x.save();x.shadowColor='rgba(0,0,0,.06)';x.shadowBlur=6;x.shadowOffsetY=2;
-        x.fillStyle='rgba(0,0,0,0)';rRect(x,px,py,sw,sh,fotoCR);x.fill();x.restore();
-        x.save();rRect(x,px,py,sw,sh,fotoCR);x.clip();x.drawImage(imgs[i],px,py,sw,sh);x.restore();
-    }
-
-    drawDate(x,w-50,h-mBot*.3,isDark?'rgba(255,255,255,.25)':'rgba(80,60,50,.25)',Math.round(mBot*.2));
-    drawWatermark(x,w,h);
-    return c.toDataURL('image/png');
+    drawCardStyle(x,w,h,selFrame);
+    const dk=getFD()?.dark;
+    drawTextBlock(x,w/2,mT+mB*.35,w-40,dk);
+    const sy=mT+mB*.6;
+    for(let i=0;i<4;i++){const col=i%2,row=Math.floor(i/2);const px=mS+pad+col*(sw+pad),py=sy+pad+row*(sh+pad);
+        drawPhotoShadow(x,px,py,sw,sh,fcr);x.save();rRect(x,px,py,sw,sh,fcr);x.clip();x.drawImage(imgs[i],px,py,sw,sh);x.restore();}
+    drawDate(x,w-50,h-mB*.3,dk?'rgba(255,255,255,.25)':'rgba(80,60,50,.25)',Math.round(mB*.2));
+    drawWatermark(x,w,h);return c.toDataURL('image/png');
 }
 
-/* ===== STRIP ===== */
+/* ===== STRIP ====== */
 function asmStrip(imgs){
-    const sh=imgs[0].height;
-    const imgW=Math.round(sh*.55);
-    const pad=Math.round(imgW*.04);
-    const mSide=Math.round(imgW*.04);
-    const mTop=Math.round(sh*.03);
-    const mBot=Math.round(sh*.1);
-    const cr=frameCustom.corner||8;
-    const fotoCR=Math.min(cr,3);
-    const cnt=imgs.length;
-    const w=imgW*cnt+pad*(cnt-1)+mSide*2;
-    const h=sh+mTop+mBot;
+    const sh=imgs[0].height,imgW=Math.round(sh*.55);
+    const pad=Math.round(imgW*.04),mS=Math.round(imgW*.04),mT=Math.round(sh*.03),mB=Math.round(sh*.1);
+    const cr=getFD()?.cr||8;const fcr=Math.min(cr,3);const cnt=imgs.length;
+    const w=imgW*cnt+pad*(cnt-1)+mS*2,h=sh+mT+mB;
     const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');
-
-    // Card luar
-    drawOuterCard(x,w,h,selFrame,frameCustom);
-
-    const isDark=getFD()?.dark;
-    const textColor=isDark?'rgba(255,255,255,.65)':'rgba(80,60,50,.6)';
-
-    drawHandText(x,w/2,mTop+mBot*.3,frameCustom.text||'Ponyo Booth',w-30,textColor,Math.round(mBot*.4));
-
-    const sy=mTop+mBot*.6;
-    for(let i=0;i<cnt;i++){
-        const px=mSide+i*(imgW+pad);
-        x.save();x.shadowColor='rgba(0,0,0,.06)';x.shadowBlur=5;x.shadowOffsetY=1;
-        x.fillStyle='rgba(0,0,0,0)';rRect(x,px,sy,imgW,sh,fotoCR);x.fill();x.restore();
-        x.save();rRect(x,px,sy,imgW,sh,fotoCR);x.clip();x.drawImage(imgs[i],px,sy,imgW,sh);x.restore();
-    }
-
-    // Garis pemisah tipis
-    x.save();x.globalAlpha=.15;x.strokeStyle=isDark?'#FFFFFF':'#4A3F3A';x.lineWidth=1;
-    for(let i=1;i<cnt;i++){const lx=mSide+i*(imgW+pad)-pad/2;x.beginPath();x.moveTo(lx,sy);x.lineTo(lx,sy+sh);x.stroke();}
-    x.restore();
-
-    drawDate(x,w/2,h-mBot*.3,isDark?'rgba(255,255,255,.25)':'rgba(80,60,50,.25)',Math.round(mBot*.22));
-    drawWatermark(x,w,h);
-    return c.toDataURL('image/png');
+    drawCardStyle(x,w,h,selFrame);
+    const dk=getFD()?.dark;
+    drawTextBlock(x,w/2,mT+mB*.3,w-30,dk);
+    const sy=mT+mB*.6;
+    for(let i=0;i<cnt;i++){const px=mS+i*(imgW+pad);
+        drawPhotoShadow(x,px,sy,imgW,sh,fcr);x.save();rRect(x,px,sy,imgW,sh,fcr);x.clip();x.drawImage(imgs[i],px,sy,imgW,sh);x.restore();}
+    x.save();x.globalAlpha=.12;x.strokeStyle=dk?'#FFFFFF':'#4A3F3A';x.lineWidth=1;
+    for(let i=1;i<cnt;i++){const lx=mS+i*(imgW+pad)-pad/2;x.beginPath();x.moveTo(lx,sy);x.lineTo(lx,sy+sh);x.stroke();}x.restore();
+    drawDate(x,w/2,h-mB*.3,dk?'rgba(255,255,255,.25)':'rgba(80,60,50,.25)',Math.round(mB*.22));
+    drawWatermark(x,w,h);return c.toDataURL('image/png');
 }
 
-/* ===== KOREAN ===== */
+/* ===== KOREAN (FIXED TEXT) ====== */
 function asmKorean(imgs){
     const sw=imgs[0].width,sh=imgs[0].height;
-    const mSide=Math.round(sw*.03);const mTop=Math.round(sh*.03);const mBot=Math.round(sh*.15);
-    const cr=frameCustom.corner||8;
-    const w=sw+mSide*2,h=sh+mTop+mBot;
+    const mS=Math.round(sw*.03),mT=Math.round(sh*.03),mB=Math.round(sh*.15);
+    const cr=getFD()?.cr||8;
+    const w=sw+mS*2,h=sh+mT+mB;
     const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');
+    drawCardStyle(x,w,h,selFrame);
+    const dk=getFD()?.dark;
 
-    // Card luar
-    drawOuterCard(x,w,h,selFrame,frameCustom);
+    /* Foto utama full-width */
+    x.save();rRect(x,mS,mT,sw,sh,Math.min(cr,4));x.clip();x.drawImage(imgs[0],mS,mT,sw,sh);x.restore();
 
-    const isDark=getFD()?.dark;
-    const textColor=isDark?'rgba(255,255,255,.65)':'rgba(80,60,50,.6)';
-
-    // Foto utama — tanpa border
-    x.save();rRect(x,mSide,mTop,sw,sh,Math.min(cr,4));x.clip();x.drawImage(imgs[0],mSide,mTop,sw,sh);x.restore();
-
-    // Foto kecil overlay — pakai card mini sendiri
+    /* Foto kecil overlay di kanan bawah */
     const s2w=Math.round(sw*.42),s2h=Math.round(sh*.42);
-    const s2x=w-mSide-s2w-Math.round(sw*.02);
-    const s2y=mTop+sh-s2h-Math.round(sh*.02);
-
-    // Shadow foto overlay
+    const s2x=w-mS-s2w-Math.round(sw*.02),s2y=mT+sh-s2h-Math.round(sh*.02);
+    const def=getFD();
     x.save();x.shadowColor='rgba(0,0,0,.15)';x.shadowBlur=15;x.shadowOffsetY=4;
-    x.fillStyle=frameCustom.color;rRect(x,s2x-6,s2y-6,s2w+12,s2h+12,cr+4);x.fill();x.restore();
-
-    // Border card mini foto overlay
-    x.save();x.strokeStyle=getFD()?.border||'#E8E4E0';x.lineWidth=1;
-    rRect(x,s2x-6,s2y-6,s2w+12,s2h+12,cr+4);x.stroke();x.restore();
-
-    // Foto overlay — tanpa border tambahan
+    x.fillStyle=def?.bg||'#FAFAFA';rRect(x,s2x-6,s2y-6,s2w+12,s2h+12,cr+4);x.fill();x.restore();
+    x.save();x.strokeStyle=def?.border||'#E8E4E0';x.lineWidth=1;rRect(x,s2x-6,s2y-6,s2w+12,s2h+12,cr+4);x.stroke();x.restore();
     x.save();rRect(x,s2x,s2y,s2w,s2h,Math.min(cr,3));x.clip();x.drawImage(imgs[1],s2x,s2y,s2w,s2h);x.restore();
 
-    // Teks
-    const textAreaY=mTop+sh+mBot/2;
-    drawHandText(x,mSide+10,textAreaY,frameCustom.text||'Ponyo Booth',sw*.5,textColor,Math.round(sh*.04));
-    drawDate(x,w-mSide-10,textAreaY,isDark?'rgba(255,255,255,.25)':'rgba(80,60,50,.25)',Math.round(sh*.025));
-    drawWatermark(x,w,h);
-    return c.toDataURL('image/png');
+    /* Teks — sekarang di tengah bawah, bukan pojok */
+    const taY=mT+sh+mB*.45;
+    drawTextBlock(x,w/2,taY,w-40,dk);
+    drawDate(x,w/2,taY+mB*.35,dk?'rgba(255,255,255,.25)':'rgba(80,60,50,.25)',Math.round(sh*.025));
+    drawWatermark(x,w,h);return c.toDataURL('image/png');
 }
 
-/* ===== PURIKURA ===== */
+/* ===== PURIKURA ====== */
 function asmPurikura(imgs){
     const sw=imgs[0].width,sh=imgs[0].height;
-    const pad=Math.round(sw*.03);
-    const mSide=Math.round(sw*.03);
-    const mTop=Math.round(sh*.06);
-    const mBot=Math.round(sh*.14);
-    const cr=frameCustom.corner||8;
-    const fotoCR=Math.min(cr,4);
-    const cnt=3;
-    const imgW=Math.round((sw-mSide*2-pad*(cnt-1))/cnt);
-    const imgH=Math.round(sh*.65);
-    const w=sw,h=mTop+imgH+mBot;
+    const pad=Math.round(sw*.03),mS=Math.round(sw*.03),mT=Math.round(sh*.06),mB=Math.round(sh*.14);
+    const cr=getFD()?.cr||8;const fcr=Math.min(cr,4);const cnt=3;
+    const imgW=Math.round((sw-mS*2-pad*(cnt-1))/cnt),imgH=Math.round(sh*.65);
+    const w=sw,h=mT+imgH+mB;
     const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');
+    drawCardStyle(x,w,h,selFrame);
+    const dk=getFD()?.dark;
+    drawTextBlock(x,w/2,mT*.5,w-40,dk);
+    for(let i=0;i<cnt;i++){const px=mS+i*(imgW+pad);
+        drawPhotoShadow(x,px,mT,imgW,imgH,fcr);x.save();rRect(x,px,mT,imgW,imgH,fcr);x.clip();x.drawImage(imgs[i],px,mT,imgW,imgH);x.restore();}
+    drawDate(x,w/2,h-mB*.4,dk?'rgba(255,255,255,.3)':'rgba(80,60,50,.3)',Math.round(mB*.25));
+    drawWatermark(x,w,h);return c.toDataURL('image/png');
+}
 
-    // Card luar
-    drawOuterCard(x,w,h,selFrame,frameCustom);
+/* ===== FILMSTRIP ====== */
+function asmFilmstrip(imgs){
+    const sw=imgs[0].width,sh=imgs[0].height;
+    const spH=Math.round(sh*.055);
+    const photoH=sh-spH*2;
+    const photoW=Math.round(photoH*.58);
+    const pGap=Math.round(photoW*.05);
+    const filmSide=Math.round(photoW*.08);
+    const filmW=filmSide*2+4*photoW+3*pGap;
+    const filmH=sh;
+    const cardPad=Math.round(sw*.025);
+    const textH=Math.round(sh*.1);
+    const w=filmW+cardPad*2,h=filmH+cardPad+textH+cardPad;
+    const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');
+    drawCardStyle(x,w,h,selFrame);
 
-    const isDark=getFD()?.dark;
-    const textColor=isDark?'rgba(255,255,255,.7)':'rgba(80,60,50,.7)';
+    /* Dark film base */
+    const fx=cardPad,fy=cardPad;
+    x.save();x.fillStyle='#1a1a1a';rRect(x,fx,fy,filmW,filmH,4);x.fill();x.restore();
 
-    drawHandText(x,w/2,mTop*.5,frameCustom.text||'Purikura',w-40,textColor,Math.round(mTop*.5));
-
-    // 3 foto — tanpa border kustomisasi
-    const sy=mTop;
-    for(let i=0;i<cnt;i++){
-        const px=mSide+i*(imgW+pad);
-        x.save();x.shadowColor='rgba(0,0,0,.08)';x.shadowBlur=8;x.shadowOffsetY=2;
-        x.fillStyle='rgba(0,0,0,0)';rRect(x,px,sy,imgW,imgH,fotoCR);x.fill();x.restore();
-        x.save();rRect(x,px,sy,imgW,imgH,fotoCR);x.clip();x.drawImage(imgs[i],px,sy,imgW,imgH);x.restore();
+    /* Sprocket holes */
+    const holeW=Math.round(spH*.5),holeSpacing=Math.round(holeW*2.3);
+    x.fillStyle='#444';
+    const totalHoles=Math.floor((filmW-filmSide*2)/(holeSpacing));
+    const holeStartX=fx+filmSide+((filmW-filmSide*2)-totalHoles*holeSpacing+holeSpacing)/2;
+    for(let i=0;i<totalHoles;i++){
+        const hx=holeStartX+i*holeSpacing;
+        rRect(x,hx,fy+3,holeW,spH-3,2);x.fill();
+        rRect(x,hx,fy+filmH-spH,holeW,spH-3,2);x.fill();
     }
 
-    drawDate(x,w/2,h-mBot*.4,isDark?'rgba(255,255,255,.3)':'rgba(80,60,50,.3)',Math.round(mBot*.25));
-    drawWatermark(x,w,h);
-    return c.toDataURL('image/png');
+    /* Photos */
+    const psx=fx+filmSide,psy=fy+spH;
+    for(let i=0;i<4;i++){const px=psx+i*(photoW+pGap);
+        x.save();rRect(x,px,psy,photoW,photoH,2);x.clip();x.drawImage(imgs[i],px,psy,photoW,photoH);x.restore();
+        x.save();x.strokeStyle='rgba(255,255,255,.12)';x.lineWidth=1;rRect(x,px,psy,photoW,photoH,2);x.stroke();x.restore();
+    }
+
+    /* Frame numbers */
+    x.save();x.font=`bold ${Math.round(spH*.45)}px Fredoka,sans-serif`;x.fillStyle='rgba(255,255,255,.18)';x.textAlign='center';x.textBaseline='middle';
+    for(let i=0;i<4;i++)x.fillText(String(i+1),psx+i*(photoW+pGap)+photoW/2,fy+filmH-spH/2);
+    x.restore();
+
+    /* Text di bawah */
+    const dk=getFD()?.dark;
+    const taY=cardPad+filmH+textH/2;
+    drawTextBlock(x,w/2,taY-5,w-40,dk);
+    drawDate(x,w-40,taY+textH*.3,dk?'rgba(255,255,255,.25)':'rgba(80,60,50,.25)',Math.round(sh*.02));
+    drawWatermark(x,w,h);return c.toDataURL('image/png');
+}
+
+/* ===== DIPTYCH ====== */
+function asmDiptych(imgs){
+    const sw=imgs[0].width,sh=imgs[0].height;
+    const gap=Math.round(sw*.025),mS=Math.round(sw*.03),mT=Math.round(sh*.04),mB=Math.round(sh*.12);
+    const cr=getFD()?.cr||8;const fcr=Math.min(cr,4);
+    const photoW=Math.round((sw-gap)/2);
+    const w=photoW*2+gap+mS*2,h=sh+mT+mB;
+    const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');
+    drawCardStyle(x,w,h,selFrame);
+    const dk=getFD()?.dark;
+    for(let i=0;i<2;i++){const px=mS+i*(photoW+gap);
+        drawPhotoShadow(x,px,mT,photoW,sh,fcr);x.save();rRect(x,px,mT,photoW,sh,fcr);x.clip();x.drawImage(imgs[i],px,mT,photoW,sh);x.restore();}
+    /* Garis pemisah tipis */
+    x.save();x.globalAlpha=.12;x.strokeStyle=dk?'#fff':'#4A3F3A';x.lineWidth=1;x.setLineDash([5,5]);
+    x.beginPath();x.moveTo(mS+photoW+gap/2,mT);x.lineTo(mS+photoW+gap/2,mT+sh);x.stroke();x.restore();
+    const taY=mT+sh+mB*.45;
+    drawTextBlock(x,w/2,taY-5,w-40,dk);
+    drawDate(x,w/2,taY+mB*.3,dk?'rgba(255,255,255,.25)':'rgba(80,60,50,.25)',Math.round(sh*.025));
+    drawWatermark(x,w,h);return c.toDataURL('image/png');
+}
+
+/* ===== POSTER (Majalah) ====== */
+function asmPoster(imgs){
+    const sw=imgs[0].width,sh=imgs[0].height;
+    const gap=Math.round(sw*.015),mS=Math.round(sw*.025),mT=Math.round(sh*.03),mB=Math.round(sh*.1);
+    const cr=getFD()?.cr||8;const fcr=Math.min(cr,4);
+    const leftW=Math.round((sw-gap)*.62),rightW=sw-gap-leftW;
+    const rightH=Math.round((sh-gap)/2);
+    const w=sw+mS*2,h=sh+mT+mB;
+    const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');
+    drawCardStyle(x,w,h,selFrame);
+    const dk=getFD()?.dark;
+
+    /* Foto besar kiri */
+    drawPhotoShadow(x,mS,mT,leftW,sh,fcr);
+    x.save();rRect(x,mS,mT,leftW,sh,fcr);x.clip();x.drawImage(imgs[0],mS,mT,leftW,sh);x.restore();
+
+    /* Foto kanan atas */
+    drawPhotoShadow(x,mS+leftW+gap,mT,rightW,rightH,fcr);
+    x.save();rRect(x,mS+leftW+gap,mT,rightW,rightH,fcr);x.clip();x.drawImage(imgs[1],mS+leftW+gap,mT,rightW,rightH);x.restore();
+
+    /* Foto kanan bawah */
+    const rbH=sh-rightH-gap;
+    drawPhotoShadow(x,mS+leftW+gap,mT+rightH+gap,rightW,rbH,fcr);
+    x.save();rRect(x,mS+leftW+gap,mT+rightH+gap,rightW,rbH,fcr);x.clip();x.drawImage(imgs[2],mS+leftW+gap,mT+rightH+gap,rightW,rbH);x.restore();
+
+    const taY=mT+sh+mB*.45;
+    drawTextBlock(x,w/2,taY-5,w-40,dk);
+    drawDate(x,w/2,taY+mB*.3,dk?'rgba(255,255,255,.25)':'rgba(80,60,50,.25)',Math.round(sh*.025));
+    drawWatermark(x,w,h);return c.toDataURL('image/png');
 }
 
 /* ====== GALLERY ====== */
@@ -879,7 +728,7 @@ function updateGallery(){
     document.getElementById('galSec').style.display='';const g=document.getElementById('galGrid');g.innerHTML='';
     photos.forEach((p,i)=>{
         const item=document.createElement('div');item.className='gal-item';
-        item.innerHTML=`<img src="${p.url}" alt="Foto ${i+1}" loading="lazy"><div class="gal-acts"><button class="g-dl" onclick="dlPhoto(${i})" aria-label="Download"><i class="fa-solid fa-download"></i></button><button class="g-del" onclick="delPhoto(${i})" aria-label="Hapus"><i class="fa-solid fa-trash"></i></button></div>`;
+        item.innerHTML=`<img src="${p.url}" alt="Foto ${i+1}" loading="lazy"><div class="gal-acts"><button class="g-dl" onclick="event.stopPropagation();dlPhoto(${i})" aria-label="Download"><i class="fa-solid fa-download"></i></button><button class="g-del" onclick="event.stopPropagation();delPhoto(${i})" aria-label="Hapus"><i class="fa-solid fa-trash"></i></button></div>`;
         item.querySelector('img').onclick=()=>openModal(p.url);g.appendChild(item);
     });
 }
@@ -904,13 +753,10 @@ function launchConfetti(){cPieces=[];const cols=['#F28B9E','#F7B267','#8ECAE6','
 function animC(){cCtx.clearRect(0,0,cCvs.width,cCvs.height);let alive=false;cPieces.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.r+=p.rs;p.vy+=.04;if(p.y>cCvs.height-40)p.o-=.02;if(p.o>0){alive=true;cCtx.save();cCtx.globalAlpha=Math.max(0,p.o);cCtx.translate(p.x,p.y);cCtx.rotate(p.r*Math.PI/180);cCtx.fillStyle=p.c;cCtx.fillRect(-p.w/2,-p.h/2,p.w,p.h);cCtx.restore();}});if(alive)requestAnimationFrame(animC);else{cRun=false;cCtx.clearRect(0,0,cCvs.width,cCvs.height);}}
 
 /* ====== KEYBOARD ====== */
-document.addEventListener('keydown',e=>{
-    if(e.code==='Space'&&stream&&!isCapturing){e.preventDefault();handleCap();}
-    if(e.code==='Escape')closeModal();
-});
+document.addEventListener('keydown',e=>{if(e.code==='Space'&&stream&&!isCapturing){e.preventDefault();handleCap();}if(e.code==='Escape')closeModal();});
 
 /* ====== INIT ====== */
-initFlGrid();buildFrameScroll();buildTplGrid();updTimerLbl();
+initFlGrid();buildFrameScroll();buildTplGrid();buildFontScroll();updTimerLbl();
 </script>
 </body>
 </html>
